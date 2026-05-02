@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RQ | Anime_Music</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/Anime_Music/refs/heads/main/icon.jpg">
+    <link rel="stylesheet" href="css/amusic.css">
+</head>
+
+<body>
+    <header>
+        <div style="font-weight:bold" id="brand-name">Anime_Music</div>
+        <div class="search-box" id="search-container">
+            <input type="text" id="search-input" placeholder="Поиск...">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            </svg>
+        </div>
+    </header>
+
+    <div class="container" id="folder-list"></div>
+    <div id="toast"></div>
+
+    <div id="mini-player" onclick="openFullPlayer()">
+        <img id="m-img" class="mini-img" src="">
+        <div class="mini-info">
+            <div id="m-name" style="font-size:14px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">-Name-</div>
+            <div id="m-author" style="font-size:12px;opacity:0.6; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">-Author-</div>
+        </div>
+        <button class="mini-btn" onclick="event.stopPropagation(); togglePlay()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                <path id="m-path" d="M8 5v14l11-7z" />
+            </svg>
+        </button>
+    </div>
+
+    <iframe id="player-frame" src="player.html"></iframe>
+
+	<div id="app_comment">По поводу ошибок или добавления/обновления тайтлов напишите нам через снопку <b>«Contact Us»</b> ниже</div>
+	
+    <footer>
+        <div>&copy; REDYQ | 2020-<span id="current-year"></span></div>
+        <div style="margin-top: 10px;">
+            <a href="mailto:commoncompanyredyq@gmail.com">Contact Us</a>
+            <a href="https://redyq.github.io/RQ.online/policy">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script src="js/amusic.js"></script>
+</body>
+
+</html>
