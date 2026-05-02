@@ -1,1 +1,156 @@
-<!DOCTYPE html><html lang="ru"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  <title>RQ | Home</title>  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/asset/logo.jpg">  <style>    :root { --accent: #F44336; }    * { -webkit-tap-highlight-color: transparent; outline: none !important; box-sizing: border-box; }    body { background: #000; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 70px; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }    header {       position: fixed; top: 0; left: 0; width: 100%; height: 60px;      background: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px);      display: flex; align-items: center; justify-content: space-between;       padding: 0 20px; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1);    }       .window {  	margin: 5%; 	 flex: 1;   }      .project-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }    .project-card {      background: var(--bg-card);      border: 1px solid var(--border);      border-radius: 8px;      padding: 16px;      transition: transform 0.2s;    }        .project-header {      display: flex;      justify-content: space-between;      align-items: center;      margin-bottom: 8px;    }    .project-name {      font-weight: 600;      text-decoration: none;      color: #fff;      font-size: 18px;    }    .platform-icons { display: flex; gap: 10px; }    .icon { width: 20px; height: 20px; fill: #8b949e; display: none; }        .project-card.android .icon.android-icon { display: block; }    .project-card.windows .icon.windows-icon { display: block; }    .project-card.web .icon.web-icon { display: block; }    .status-row { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: bold; text-transform: uppercase; }    .dot { width: 8px; height: 8px; border-radius: 50%; display: none !important; }    .status-text { display: none;  font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }    .project-card.online .dot.d-online, .project-card.online .t-online { display: block; color: #fff; background-color: #32cd32; }    .project-card.offline .dot.d-offline, .project-card.offline .t-offline { display: block; color: #fff; background-color: #f85149; }    .project-card.update .dot.d-update, .project-card.update .t-update { display: block; color: #fff; background-color: #ff8c00; }    .dot { background-color: currentColor !important; }      footer {      height: 120px;      margin-top: 100px;      padding: 40px 20px;      background: #0d1117;      border-top: 1px solid #30363d;      text-align: center;      color: #8b949e;      font-size: 14px;    }    footer a {      color: var(--accent);      text-decoration: none;      margin: 0 10px;    }    footer a:hover {      text-decoration: underline;    }  </style></head><body>  <header>    <div style="font-weight:bold" id="brand-name">RQ | Home</div>  </header> <div class="window">  <p align="center" style="margin-top: 80px;">    <img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/asset/logo.jpg" style="width: 20%;" />  </p>  <h3 align="center" style="margin-bottom: 80px; margin-top: -20px;">REDYQ</h3><p>Маленькая и не примечательная компания по созданию Android и WEB проектов для личного или общественного пользования.</p><h3 style="margin-top: 80px;">Project List</h3>    <div class="project-list">        <!-- Tag:         A: android, windows, web         B: online, offline, update -->    <!-- Anime_List-->    <div class="project-card web online">       <div class="project-header">        <a href="https://redyq.github.io/RQ.online/alist" class="project-name">Anime_List</a>                <div class="platform-icons">		  <a href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/logs/alist_debug.jpg" style="font-size: 10px; color: #ff4d4d; display: block; text-align: right; margin-top: 4px;">Log</a>          <svg class="icon android-icon" viewBox="0 0 24 24"><path d="M17.52 15.34c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91zm-11.04 0c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91zM17.9 10.43l1.97-3.44c.15-.26.06-.59-.2-.74s-.59-.06-.74.2l-2 3.49C15.49 9.28 13.84 8.92 12 8.92s-3.49.36-4.93 1.01l-2-3.49c-.15-.26-.48-.35-.74-.2s-.35.48-.2.74l1.97 3.44C2.98 12.18.89 15.42.89 19.2h22.22c0-3.78-2.09-7.02-5.21-8.77z""")/>></svg>          <svg class="icon windows-icon" viewBox="0 0 24 24"><path d="M0 3.45L9.75 2.1v9.15H0V3.45zm0 9.3h9.75v9.15L0 20.55v-7.8zm11.25-10.85L24 0v11.25H11.25V1.9zm0 10.85H24V24l-12.75-1.9v-9.25z""")/>></svg>          <svg class="icon web-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z""")/>></svg>        </div>      </div>      <div class="status-row">        <div class="dot d-online"></div><span class="status-text t-online">Online</span>        <div class="dot d-offline"></div><span class="status-text t-offline">Offline</span>        <div class="dot d-update"></div><span class="status-text t-update">Обновление</span>      </div>    </div><!-- * -->    <!-- Anime_Music -->    <div class="project-card web online">       <div class="project-header">        <a href="https://redyq.github.io/RQ.online/amusic" class="project-name">Anime_Music</a>        <div class="platform-icons">		  <a href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/logs/amusic_debug.jpg" style="font-size: 10px; color: #ff4d4d; display: block; text-align: right; margin-top: 4px;">Log</a>          <svg class="icon android-icon" viewBox="0 0 24 24"><path d="M17.52 15.34c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91zm-11.04 0c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91zM17.9 10.43l1.97-3.44c.15-.26.06-.59-.2-.74s-.59-.06-.74.2l-2 3.49C15.49 9.28 13.84 8.92 12 8.92s-3.49.36-4.93 1.01l-2-3.49c-.15-.26-.48-.35-.74-.2s-.35.48-.2.74l1.97 3.44C2.98 12.18.89 15.42.89 19.2h22.22c0-3.78-2.09-7.02-5.21-8.77z""")/>></svg>          <svg class="icon windows-icon" viewBox="0 0 24 24"><path d="M0 3.45L9.75 2.1v9.15H0V3.45zm0 9.3h9.75v9.15L0 20.55v-7.8zm11.25-10.85L24 0v11.25H11.25V1.9zm0 10.85H24V24l-12.75-1.9v-9.25z""")/>></svg>          <svg class="icon web-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z""")/>></svg>        </div>      </div>      <div class="status-row">        <div class="dot d-online"></div><span class="status-text t-online">Online</span>        <div class="dot d-offline"></div><span class="status-text t-offline">Offline</span>        <div class="dot d-update"></div><span class="status-text t-update">Обновление</span>      </div>    </div><!-- * -->  </div></div>   <footer>    <div>&copy; REDYQ | 2020-<span id="current-year"></span></div>    <div style="margin-top: 10px;">      <a href="mailto:commoncompanyredyq@gmail.com">Contact Us</a>      <a href="https://redyq.github.io/RQ.online/policy">Privacy Policy</a>    </div>  </footer>  <script> 	document.getElementById('current-year').textContent = new Date().getFullYear();  </script></body></html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>RQ | Home</title>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/logo.jpg">
+  <style>
+    :root { --accent: #F44336; }
+    * { -webkit-tap-highlight-color: transparent; outline: none !important; box-sizing: border-box; }
+    body { background: #000; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 70px; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+
+    header { 
+      position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+      background: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 0 20px; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+   .window {
+  	margin: 5%;
+ 	 flex: 1;
+   }
+  
+    .project-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      transition: transform 0.2s;
+    }
+    
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .project-name {
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      font-size: 18px;
+    }
+
+    .platform-icons { display: flex; gap: 10px; }
+    .icon { width: 20px; height: 20px; fill: #8b949e; display: none; }
+    
+    .project-card.android .icon.android-icon { display: block; }
+    .project-card.windows .icon.windows-icon { display: block; }
+    .project-card.web .icon.web-icon { display: block; }
+
+    .status-row { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: none !important; }
+    .status-text { display: none;  font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+
+    .project-card.online .dot.d-online, .project-card.online .t-online { display: block; color: #fff; background-color: #32cd32; }
+    .project-card.offline .dot.d-offline, .project-card.offline .t-offline { display: block; color: #fff; background-color: #f85149; }
+    .project-card.update .dot.d-update, .project-card.update .t-update { display: block; color: #fff; background-color: #ff8c00; }
+    .dot { background-color: currentColor !important; }
+
+  
+    footer {
+      height: 120px;
+      margin-top: 100px;
+      padding: 40px 20px;
+      background: #0d1117;
+      border-top: 1px solid #30363d;
+      text-align: center;
+      color: #8b949e;
+      font-size: 14px;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="font-weight:bold" id="brand-name">RQ | Home</div>
+  </header>
+ <div class="window">
+  <p align="center" style="margin-top: 80px;">
+    <img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/logo.jpg" style="width: 20%;" />
+  </p>
+  <h3 align="center" style="margin-bottom: 80px; margin-top: -20px;">REDYQ</h3>
+<p>Маленькая и не примечательная компания по созданию Android и WEB проектов для личного или общественного пользования.</p>
+<h3 style="margin-top: 80px;">Project List</h3>
+  
+  <div class="project-list">
+    
+    <!-- Tag:
+         A: android, windows, web
+         B: online, offline, update -->
+
+    <!-- Anime_List-->
+    <div class="project-card web update"> 
+      <div class="project-header">
+        <a href="https://redyq.github.io/RQ.online/alist" class="project-name">Anime_List</a>
+        
+        <div class="platform-icons">
+		  <a href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/logs/alist_debug.jpg" style="font-size: 10px; color: #ff4d4d; display: block; text-align: right; margin-top: 4px;">Log</a>
+          <svg class="icon android-icon" viewBox="0 0 24 24"><path d="M17.52 15.34c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91zm-11.04 0c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91zM17.9 10.43l1.97-3.44c.15-.26.06-.59-.2-.74s-.59-.06-.74.2l-2 3.49C15.49 9.28 13.84 8.92 12 8.92s-3.49.36-4.93 1.01l-2-3.49c-.15-.26-.48-.35-.74-.2s-.35.48-.2.74l1.97 3.44C2.98 12.18.89 15.42.89 19.2h22.22c0-3.78-2.09-7.02-5.21-8.77z""")/>></svg>
+          <svg class="icon windows-icon" viewBox="0 0 24 24"><path d="M0 3.45L9.75 2.1v9.15H0V3.45zm0 9.3h9.75v9.15L0 20.55v-7.8zm11.25-10.85L24 0v11.25H11.25V1.9zm0 10.85H24V24l-12.75-1.9v-9.25z""")/>></svg>
+          <svg class="icon web-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z""")/>></svg>
+        </div>
+      </div>
+      <div class="status-row">
+        <div class="dot d-online"></div><span class="status-text t-online">Online</span>
+        <div class="dot d-offline"></div><span class="status-text t-offline">Offline</span>
+        <div class="dot d-update"></div><span class="status-text t-update">Обновление</span>
+      </div>
+    </div><!-- * -->
+
+    <!-- Anime_Music -->
+    <div class="project-card web update"> 
+      <div class="project-header">
+        <a href="https://redyq.github.io/RQ.online/amusic" class="project-name">Anime_Music</a>
+        <div class="platform-icons">
+		  <a href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/logs/amusic_debug.jpg" style="font-size: 10px; color: #ff4d4d; display: block; text-align: right; margin-top: 4px;">Log</a>
+          <svg class="icon android-icon" viewBox="0 0 24 24"><path d="M17.52 15.34c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91zm-11.04 0c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91zM17.9 10.43l1.97-3.44c.15-.26.06-.59-.2-.74s-.59-.06-.74.2l-2 3.49C15.49 9.28 13.84 8.92 12 8.92s-3.49.36-4.93 1.01l-2-3.49c-.15-.26-.48-.35-.74-.2s-.35.48-.2.74l1.97 3.44C2.98 12.18.89 15.42.89 19.2h22.22c0-3.78-2.09-7.02-5.21-8.77z""")/>></svg>
+          <svg class="icon windows-icon" viewBox="0 0 24 24"><path d="M0 3.45L9.75 2.1v9.15H0V3.45zm0 9.3h9.75v9.15L0 20.55v-7.8zm11.25-10.85L24 0v11.25H11.25V1.9zm0 10.85H24V24l-12.75-1.9v-9.25z""")/>></svg>
+          <svg class="icon web-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z""")/>></svg>
+        </div>
+      </div>
+      <div class="status-row">
+        <div class="dot d-online"></div><span class="status-text t-online">Online</span>
+        <div class="dot d-offline"></div><span class="status-text t-offline">Offline</span>
+        <div class="dot d-update"></div><span class="status-text t-update">Обновление</span>
+      </div>
+    </div><!-- * -->
+
+  </div>
+</div>
+ 
+  <footer>
+    <div>&copy; REDYQ | 2020-<span id="current-year"></span></div>
+    <div style="margin-top: 10px;">
+      <a href="mailto:commoncompanyredyq@gmail.com">Contact Us</a>
+      <a href="https://redyq.github.io/RQ.online/policy">Privacy Policy</a>
+    </div>
+  </footer>
+
+  <script>
+ 	document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
