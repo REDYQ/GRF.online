@@ -131,6 +131,8 @@ function filterLogic(folder, sub, userItem, isMyList) {
 }
         
 async function renderList(data, containerId, isMyList = false, userItems = []) {
+	window.scrollTo({ top: 0, behavior: 'instant' });
+	
     const list = document.getElementById(containerId);
     list.innerHTML = '';
 
@@ -204,7 +206,7 @@ async function renderList(data, containerId, isMyList = false, userItems = []) {
 
         const isSearchActive = searchInput.value.trim() !== "" || Object.values(currentFilters).some(v => Array.isArray(v) ? v.length > 0 : v === true);
         
-        if (isMyList && isSearchActive && myMatchingTitles === 0) continue;
+        if (isSearchActive && myMatchingTitles === 0) continue;
 
         const isStatusHidden = item.status === "—";
         const wrapper = document.createElement('div');
@@ -271,8 +273,24 @@ function updateMyList() {
 }
 
 function switchScreen(screen) {
-    const allList = document.getElementById('all-list-container');
+	window.scrollTo(0, 0);
+	
+	const allList = document.getElementById('all-list-container');
     const myList = document.getElementById('my-list-container');
+	searchInput.value = "";
+
+    currentFilters = { 
+        type: [], status: [], voiceover: [], 
+        genre: [], category: [], relook: false, studio: [] 
+    };
+
+    showToast("Loading...");
+    if (overlay) overlay.click();
+
+setTimeout(() => {    
+    if (typeof renderDrawerMenu === 'function') {
+        renderDrawerMenu(); 
+    }
     
     if (screen === 'my') {
         allList.style.display = 'none';
@@ -281,7 +299,9 @@ function switchScreen(screen) {
     } else {
         allList.style.display = 'block';
         myList.style.display = 'none';
+        renderList(ALL_ANIME_DATA, 'all-list-container');
     }
+  }, 250);
 }
 
 async function toggleFolder(element, uniqueId, originalId) {
@@ -384,6 +404,7 @@ async function fetchSubItems(folderId, container, userItems = [], isMyList = fal
 loadFolders();
 
 searchInput.oninput = () => {
+	window.scrollTo(0, 0); 
     const val = searchInput.value.toLowerCase().trim();
     const wrappers = document.querySelectorAll('.anime-wrapper');
     
@@ -408,6 +429,12 @@ searchInput.oninput = () => {
 
 function setMyListMode(mode) {
     myListMode = mode;
+    window.scrollTo(0, 0);
+    
+    if (searchInput) {
+        searchInput.value = ""; 
+    }
+    
     updateMyList();
 }
 
@@ -467,7 +494,7 @@ function renderDrawerMenu() {
     drawerContent.innerHTML = `
     <div style="padding: 10px; font-weight: bold; font-size: 12px; color: #888;">НАВИГАЦИЯ</div>
         <div class="drawer-item ${isAllVisible ? 'active-screen' : ''}" id="btn-all-list">
-            <span">All List</span>
+            <span>All List</span>
         </div>
         <div class="drawer-item ${!isAllVisible ? 'active-screen' : ''}" id="btn-my-list">
             <span>Мой список</span>
@@ -750,8 +777,10 @@ function updateFilter(key, value) {
 }
 
 function applyFilters() {
-	if (overlay) overlay.click();
+    const input = document.getElementById('search-input');
+    if (input) input.value = "";
 	
+	if (overlay) overlay.click();
 	showToast("Loading...");
 	
     overlay.click();
