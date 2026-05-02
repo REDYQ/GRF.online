@@ -82,19 +82,19 @@
                     const div = document.createElement('div');
                     div.className = 'folder-item';
                     div.setAttribute('data-name', item.name.toLowerCase());
-                    div.setAttribute('data-id', item.data);
+                    div.setAttribute('data-id', item.number);
                     div.innerHTML = `<img src="${item.icon}" class="folder-icon"><div class="folder-info"><b>${item.name}</b><br></div>`;
                     div.onclick = () => {
                         isPlayingFavorites = false;
-                        sessionStorage.setItem('opened_folder_id', item.data);
+                        sessionStorage.setItem('opened_folder_id', item.number);
                         openFullPlayer();
                         
-                        if (currentLoadedUrl !== item.data) {
-                            currentLoadedUrl = item.data;
+                        if (currentLoadedUrl !== item.number) {
+                            currentLoadedUrl = item.number;
                             frame.contentWindow.postMessage({
                                 type: 'LOAD_PLAYLIST',
-                                url: item.data,
-                                folderId: item.data,
+                                url: item.number,
+                                folderId: item.number,
                                 noPlay: true
                             }, '*');
                         } else {
