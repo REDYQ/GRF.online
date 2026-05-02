@@ -303,6 +303,7 @@
     align-items: center !important;
     width: 240px !important;
     height: 40px !important;
+    min-height: 40px !important;
     margin: 6px auto !important; 
     padding: 0 15px !important;
     box-sizing: border-box !important;
@@ -358,7 +359,7 @@
 .drawer {
     position: fixed;
     top: 0; left: -300px;
-    width: 280px; height: 100%;
+    width: 280px;
     background: #121212;
     z-index: 2001;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
