@@ -438,7 +438,7 @@ function handleUrlParams() {
     if (!query) return;
 
     const parts = query.split('_');
-    const folderIdFromUrl = decodeURIComponent(parts[0]);
+    const folderIdFromUrl = decodeURIComponent(parts[0]).toLowerCase();
     const trackPos = parts[1] ? parseInt(parts[1]) : null;
 
     const folders = document.querySelectorAll('.folder-item');
