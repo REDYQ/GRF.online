@@ -424,18 +424,15 @@ function showToast(message) {
     setTimeout(() => toast.classList.remove('show'), 1500);
 }
 
-
-
-
-
-
-
-
-
+let urlParamsProcessed = false;
 
 function handleUrlParams() {
+	if (urlParamsProcessed) return;
+	
     const query = window.location.search.substring(1); 
     if (!query) return;
+    
+    urlParamsProcessed = true;
 
     const parts = query.split('_');
     const folderIdFromUrl = decodeURIComponent(parts[0]).toLowerCase();
@@ -475,6 +472,7 @@ function handleUrlParams() {
                     }, '*');
                     
                     clearInterval(checkFrame);
+                    window.history.replaceState({}, document.title, window.location.pathname);
                 }
                 if (attempts++ > 30) clearInterval(checkFrame); 
             }, 500);
