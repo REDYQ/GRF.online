@@ -89,12 +89,12 @@
                         sessionStorage.setItem('opened_folder_id', item.number);
                         openFullPlayer();
                         
-                        if (currentLoadedUrl !== item.number) {
-                            currentLoadedUrl = item.number;
+                        if (currentLoadedUrl !== item.data) {
+                            currentLoadedUrl = item.data;
                             frame.contentWindow.postMessage({
                                 type: 'LOAD_PLAYLIST',
-                                url: item.number,
-                                folderId: item.number,
+                                url: item.data,
+                                folderId: item.data,
                                 noPlay: true
                             }, '*');
                         } else {
