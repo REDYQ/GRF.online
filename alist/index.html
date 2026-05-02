@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RQ | Anime_List</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/Anime_List/refs/heads/main/icon.jpg">
+    <link rel="stylesheet" href="css/alist.css">
+</head>
+
+<body>
+    <header>
+        <div style="font-weight:bold" id="brand-name">Anime_List</div>
+        <div class="search-box" id="search-container">
+            <input type="text" id="search-input" placeholder="Поиск...">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            </svg>
+        </div>
+    </header>
+    
+<div class="drawer-overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+    <div id="drawer-content"></div>
+</div>
+
+<div class="container" id="all-list-container"></div>
+<div class="container" id="my-list-container" style="display: none;"></div>
+    
+	<div id="app_comment">По поводу ошибок или добавления/обновления тайтлов напишите нам через снопку <b>«Contact Us»</b> ниже</div>
+
+    <footer>
+        <div>&copy; REDYQ | 2020-<span id="current-year"></span></div>
+        <div style="margin-top: 10px;">
+            <a href="mailto:commoncompanyredyq@gmail.com">Contact Us</a>
+            <a href="https://redyq.github.io/RQ.online/policy">Privacy Policy</a>
+        </div>
+    </footer>
+    
+	<div id="toast"></div>
+    <script src="js/alist.js"></script>
+</body>
+
+</html>

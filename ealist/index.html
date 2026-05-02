@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RQ | Edit AList</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/Anime_List/refs/heads/main/icon.jpg">
+    <link rel="stylesheet" href="css/ealist.css">
+</head>
+
+<body>
+    <header>
+        <div style="font-weight:bold" id="brand-name" onclick="goBack()">Edit AList</div>
+        <div class="search-box search-hidden" id="search-box">
+            <input type="text" id="search-input" placeholder="Поиск...">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            </svg>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div id="start-screen" class="start-menu">
+            <button class="main-btn" onclick="startApp('new')">Создать новый список</button>
+			<button class="main-btn" onclick="startApp('view')">Просмотр списка</button>
+            <button class="main-btn" onclick="startApp('import')">Импортировать список</button>
+            <button id="btn-cache" class="main-btn cache-btn" style="display: none;" onclick="startApp('cache')">Восстановить последний сеанс</button>
+        </div>
+        <div id="list-container" class="container" style="display: none;"></div>
+    </div>
+
+    <div id="modal-overlay" class="modal-overlay"></div>
+    <div id="edit-modal" class="edit-modal">
+        <div class="modal-header">
+            <h3>Параметры тайтла</h3>
+            <div id="delete-item" class="trash-icon">
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <label>Количество пересмотров:</label>
+            <input type="number" id="edit-relook" placeholder="Оставьте пустым, если = 0">
+        </div>
+        
+        <div class="input-group">
+            <label>Озвучка:</label>
+            <input type="text" id="edit-voiceover" placeholder="Ввод...">
+        </div>
+        
+        <div class="input-group">
+            <label>Количество эпизодов:</label>
+            <input type="number" id="edit-episode" placeholder="Ввод...">
+        </div>
+
+        <div class="input-group">
+            <label>Вы сейчас смотрите этот тайтл?</label>
+            <div class="toggle-group">
+                <button id="look-yes" onclick="setWatching(true)">Да</button>
+                <button id="look-no" onclick="setWatching(false)">Нет</button>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="save-btn" id="save-edit">СОХРАНИТЬ ИЗМЕНЕНИЯ</button>
+            <button class="cancel-btn" onclick="closeModal()">ОТМЕНА</button>
+        </div>
+    </div>
+
+    <footer>
+        <div>&copy; REDYQ | 2020-<span id="current-year"></span></div>
+        <div style="margin-top: 10px;">
+            <a href="mailto:commoncompanyredyq@gmail.com">Contact Us</a>
+            <a href="https://redyq.github.io/RQ.online/policy">Privacy Policy</a>
+        </div>
+    </footer>
+    
+    <div id="toast"></div>
+    <script src="js/ealist.js"></script>
+</body>
+</html>
