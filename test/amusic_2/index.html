@@ -49,6 +49,20 @@
     </footer>
 
     <script src="js/amusic.js"></script>
+    
+    <script src="https://jsdelivr.net"></script>
+<script>
+    eruda.init();
+   
+    window.addEventListener('message', (e) => {
+        if (e.data.type === 'DEBUG_VIDEO') {
+            console.log('--- LOG FROM PLAYER ---');
+            console.error('Ошибка:', e.data.data.errorDescription);
+            console.warn('Файл:', e.data.data.file);
+            console.log('Детали:', e.data.data.sysMessage);
+        }
+    });
+</script>
 </body>
 
 </html>
