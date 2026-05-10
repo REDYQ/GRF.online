@@ -505,10 +505,15 @@ function showToast(message) {
 }
 
         function closeFullPlayer() {
-        	syncMediaUI(isPlaying); 
             window.parent.postMessage({
                 type: 'CLOSE_PLAYER'
             }, '*');
+            
+		    try {
+		        syncMediaUI(isPlaying);
+		    } catch(e) {
+		        console.error("Ошибка синхронизации при закрытии:", e);
+		    }            
         }
         window.addEventListener('resize', () => {
             let vh = window.innerHeight * 0.01;
