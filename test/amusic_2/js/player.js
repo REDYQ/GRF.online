@@ -1,6 +1,7 @@
         let JSON_URL = '';
         let currentFolderId = sessionStorage.getItem('opened_folder_id') || "";
         let isInitializing = false;
+        let currentSyncMode = 'auto';
         const BASE_URL = 'https://raw.githubusercontent.com/REDYQ/Anime_Music/refs/heads/main/file/';
 
         const audio = document.getElementById('audio'),
@@ -130,6 +131,12 @@
                 return;
             }
             currentBgMode = mode;
+            
+		    const syncBlock = document.getElementById('sync-section');
+		    if (syncBlock) {
+		        syncBlock.style.display = (mode === 'video') ? 'block' : 'none';
+		    }    
+        
             updateBgVisual();
         }
 
@@ -408,14 +415,43 @@ audio.onpause = () => {
             const progress = (audio.currentTime / audio.duration * 100);
             document.getElementById('p-bar').style.width = (progress || 0) + '%';
             if (currentBgMode === 'video' && videoBg.duration) {
-                if (audio.paused || audio.seeking) {
+            	
+                let startTime = 0;
+                const vStr = tracks[currentIdx].video;
+        if (vStr.includes('?')) {
+            const parts = vStr.split('?');
+            if (parts[1]) {
+                const tPart = parts[1].split('-');
+                startTime = (parseInt(tPart[0]) * 60) + (parseInt(tPart[1]) || 0);
+            }
+        }
+
+                if (currentSyncMode === 'auto') {
+                    const videoPos = audio.currentTime % videoBg.duration;
+                    if (Math.abs(videoBg.currentTime - videoPos) > 0.6) {
+                        videoBg.currentTime = videoPos;
+                    }
+                    videoBg.style.opacity = 1;
+                    videoBg.style.filter = "none";
+                } else {
+                    if (audio.currentTime < startTime) {
+                        if (!videoBg.paused) videoBg.pause();
+                        videoBg.style.opacity = 0.3;
+                        videoBg.style.filter = "blur(10px) grayscale(1)";
+                    } else {
+                        videoBg.style.opacity = 1;
+                        videoBg.style.filter = "none";
+                        const targetPos = audio.currentTime - startTime;
+                        if (Math.abs(videoBg.currentTime - targetPos) > 0.6) {
+                            videoBg.currentTime = targetPos;
+                        }
+                    }
+                }
+
+                if (audio.paused || audio.seeking || (currentSyncMode === 'smart' && audio.currentTime < startTime)) {
                     if (!videoBg.paused) videoBg.pause();
                 } else {
                     if (videoBg.paused) videoBg.play().catch(() => {});
-                }
-                const videoPos = audio.currentTime % videoBg.duration;
-                if (Math.abs(videoBg.currentTime - videoPos) > 0.6) {
-                    videoBg.currentTime = videoPos;
                 }
             }
             document.getElementById('curr').innerText = fmt(audio.currentTime);
@@ -511,9 +547,7 @@ function showToast(message) {
             
 		    try {
 		        syncMediaUI(isPlaying);
-		    } catch(e) {
-		        console.error("Ошибка синхронизации при закрытии:", e);
-		    }            
+		    } catch(e) {}            
         }
         window.addEventListener('resize', () => {
             let vh = window.innerHeight * 0.01;
@@ -541,6 +575,43 @@ function showToast(message) {
         window.addEventListener('resize', fixHeight);
         window.addEventListener('orientationchange', fixHeight);
         fixHeight();
+
+function copyTrackLink() {
+    const folderId = currentFolderId;
+    const trackPos = currentIdx + 1;
+    
+    const baseUrl = window.parent.location.origin + window.parent.location.pathname;
+    const shareUrl = `https://redyq.github.io/RQ.online/amusic?${folderId}_${trackPos}`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            showToast("Ссылка скопирована!");
+        }).catch(() => {
+            showToast("Ошибка");
+        });
+    } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = shareUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast("Ссылка скопирована!");
+        } catch (err) {
+            showToast("Ошибка");
+        }
+        document.body.removeChild(textArea);
+    }
+}
+
+function setSyncMode(mode) {
+    currentSyncMode = mode; 
+    
+    document.getElementById('sync-auto').classList.toggle('active', mode === 'auto');
+    document.getElementById('sync-smart').classList.toggle('active', mode === 'smart');
+    
+    showToast(mode === 'auto' ? "Авто синхронизация" : "Синхронизация с фоном");
+}
        
 //*
 function handleVideoError(event) {
