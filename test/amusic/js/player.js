@@ -86,11 +86,13 @@
                 }
         const isCurrent = isThisFolderPlaying && i === currentIdx;
         const activeClass = isCurrent ? 'active' : '';
-        const playingClass = (isCurrent && isPlaying) ? 'playing' : '';
 
 		const fullIconUrl = BASE_URL + t.icon;
 		const fullMusicUrl = BASE_URL + t.music;
 		
+		const isActuallyPlaying = (audio.src === fullMusicUrl && !audio.paused);
+		const playingClass = isActuallyPlaying ? 'playing' : '';
+
                 html += `
             <div class="track-item ${activeClass} ${playingClass}" id="track-${i}" onclick="selectTrack(${i})" data-src="${fullMusicUrl}">
                 <div class="bars-wrapper"><div class="playing-bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>
@@ -386,8 +388,15 @@ audio.onplaying = () => {
     syncMediaUI(true);
     renderPlaylist();
     if (currentBgMode === 'video') videoBg.play().catch(() => {});
-    const item = document.getElementById(`track-${currentIdx}`);
-    if (item) item.classList.add('playing');
+    
+    const currentPlayingSrc = audio.src;
+    document.querySelectorAll('.track-item').forEach(item => {
+        if (item.getAttribute('data-src') === currentPlayingSrc) {
+            item.classList.add('playing');
+        } else {
+            item.classList.remove('playing');
+        }
+    });
 };
 
 audio.onpause = () => {
@@ -396,8 +405,10 @@ audio.onpause = () => {
     syncMediaUI(false); 
     renderPlaylist();
     videoBg.pause();
-    const item = document.getElementById(`track-${currentIdx}`);
-    if (item) item.classList.remove('playing');
+    
+    document.querySelectorAll('.track-item').forEach(item => {
+        item.classList.remove('playing');
+    });
 };
 
         audio.onended = () => {
