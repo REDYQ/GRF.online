@@ -1,6 +1,8 @@
         let JSON_URL = '';
         let currentFolderId = sessionStorage.getItem('opened_folder_id') || "";
         let isInitializing = false;
+        const BASE_URL = 'https://raw.githubusercontent.com/REDYQ/Anime_Music/refs/heads/main/file/';
+
         const audio = document.getElementById('audio'),
             icon = document.getElementById('icon'),
             videoBg = document.getElementById('bg-video');
@@ -50,7 +52,7 @@
                 document.getElementById('player-screen').className = 'screen screen-hidden';
         if (isPreload) {
             const playingSrc = audio.src.split('/').pop(); 
-            const foundIdx = tracks.findIndex(t => t.music.split('/').pop() === playingSrc);
+            const foundIdx = tracks.findIndex(t => (BASE_URL + t.music).split('/').pop() === playingSrc);
             
             if (foundIdx !== -1) {
                 currentIdx = foundIdx; 
@@ -86,11 +88,13 @@
         const activeClass = isCurrent ? 'active' : '';
         const playingClass = (isCurrent && isPlaying) ? 'playing' : '';
 
-                
+		const fullIconUrl = BASE_URL + t.icon;
+		const fullMusicUrl = BASE_URL + t.music;
+		
                 html += `
-            <div class="track-item ${activeClass} ${playingClass}" id="track-${i}" onclick="selectTrack(${i})" data-src="${t.music}">
+            <div class="track-item ${activeClass} ${playingClass}" id="track-${i}" onclick="selectTrack(${i})" data-src="${fullMusicUrl}">
                 <div class="bars-wrapper"><div class="playing-bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>
-                <img src="${t.icon}" class="item-icon">
+                <img src="${fullIconUrl}" class="item-icon">
                 <div class="item-info"><b>${t.name}</b><br><small>${t.autor}</small></div>
                 </div>
             </div>`;
@@ -108,7 +112,7 @@
 
         function selectTrack(i) {
     const t = tracks[i];
-    const isSameMusic = audio.getAttribute('src') === t.music;
+    const isSameMusic = audio.getAttribute('src') === (BASE_URL + t.music);
     
     if (currentIdx === i && isSameMusic) {
         toggleScreen('player');
@@ -131,12 +135,15 @@
 
         function updateBgVisual() {
             const t = tracks[currentIdx];
-            const isVideo = currentBgMode === 'video' && t && t.video && t.video !== '#';
+            
+		    const fullVideoUrl = t.video === '#' ? '#' : 'https://github.com/' + t.video.replace('@', '/releases/download/BG/');
+		    const isVideo = currentBgMode === 'video' && fullVideoUrl !== '#';
+		    
             document.getElementById('sw-color').classList.toggle('active', !isVideo);
             document.getElementById('sw-video').classList.toggle('active', isVideo);
             if (isVideo) {
-                if (videoBg.src !== t.video) {
-                    videoBg.src = t.video;
+                if (videoBg.src !== fullVideoUrl) {
+                    videoBg.src = fullVideoUrl;
                     videoBg.load();
                 }
                 videoBg.style.opacity = 1;
@@ -152,8 +159,12 @@
             if (!t) return;
             
     currentIdx = idx;
-    audio.src = t.music;
-    icon.src = t.icon;
+    
+    const fullMusicUrl = BASE_URL + t.music;
+    const fullIconUrl = BASE_URL + t.icon;
+    
+    audio.src = fullMusicUrl;
+    icon.src = fullIconUrl;
             
             const currentName = document.getElementById('track-name').innerText;
             if (!play && currentName !== "" && isPlaying) {
@@ -161,22 +172,33 @@
                 return;
             }
             currentIdx = idx;
-            icon.src = t.icon;
+            icon.src = fullIconUrl;
             document.getElementById('track-name').innerText = t.name;
             document.getElementById('track-author').innerText = t.autor;
-            audio.src = t.music;
+            audio.src = fullMusicUrl;
             let volValue = parseInt(t.volume_master);
             audio.volume = (volValue === 0) ? 1.0 : (Math.max(0.01, (volValue || 100) / 100));
             document.getElementById('info-source').innerText = t.source || '-';
             document.getElementById('info-episode').innerText = t.episode || '-';
             document.getElementById('info-type').innerText = t.type || '-';
             document.getElementById('info-full').innerText = t.full || '-';
-            document.getElementById('sw-video').classList.toggle('disabled', !t.video || t.video === '#');
-            document.getElementById('btn-watch-video').style.display = (!t.video || t.video === '#') ? 'none' : 'block';
+            
+			const fullVideoUrl = t.video === '#' ? '#' : 'https://github.com/' + t.video.replace('@', '/releases/download/BG/');
+
+    if (fullVideoUrl !== '#') {
+        videoBg.preload = "metadata"; 
+        videoBg.src = fullVideoUrl;
+        videoBg.load(); 
+    }
+			
+			document.getElementById('sw-video').classList.toggle('disabled', fullVideoUrl === '#');
+			document.getElementById('btn-watch-video').style.display = (fullVideoUrl === '#') ? 'none' : 'block';
+			
             updateBgVisual();
             document.querySelectorAll('.track-item').forEach((el, i) => {
                 el.classList.remove('playing');el.classList.toggle('active', i === idx);
             });
+			
             icon.onload = () => {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
@@ -189,7 +211,7 @@
                     title: t.name,
                     artist: t.autor,
                     artwork: [{
-                        src: t.icon,
+                        src: fullIconUrl,
                         sizes: '512x512',
                         type: 'image/png'
                     }]
@@ -217,12 +239,14 @@ const playingFolderId = sessionStorage.getItem('playing_folder_id');
     }
     if (!t || !t.name || !audio.getAttribute('src')) return;
 
+    const fullIcon = BASE_URL + t.icon;
+    const fullMusic = BASE_URL + t.music;
     
     if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
             title: t.name,
             artist: t.autor,
-            artwork: [{ src: t.icon, sizes: '512x512', type: 'image/png' }]
+            artwork: [{ src: fullIconUrl, sizes: '512x512', type: 'image/png' }]
         });
         navigator.mediaSession.playbackState = playing ? "playing" : "paused";
     }
@@ -234,20 +258,24 @@ const playingFolderId = sessionStorage.getItem('playing_folder_id');
         folderId: currentFolderId,
         name: t.name,
         autor: t.autor,
-        img: t.icon,
-        music: t.music
+        img: fullIconUrl,
+        music: fullMusicUrl
     }, '*');
 }
 
 
         function openFullVideo() {
             const t = tracks[currentIdx];
-            if (t && t.video && t.video !== '#') {
+            const fullVideoUrl = t.video === '#' ? '#' : 'https://github.com/' + t.video.replace('@', '/releases/download/BG/');
+            if (fullVideoUrl !== '#') {
                 audio.pause();
                 document.getElementById('v-title').innerText = t.name;
-                fullVideo.src = t.video;
+                
+                fullVideo.src = fullVideoUrl;
                 videoContainer.style.display = 'flex';
-                fullVideo.play();
+				fullVideo.play().catch(e => {
+		            showToast("Ошибка запуска: " + e.message);
+		        });
             }
         }
 
@@ -477,10 +505,13 @@ function showToast(message) {
 }
 
         function closeFullPlayer() {
-        	syncMediaUI(isPlaying); 
             window.parent.postMessage({
                 type: 'CLOSE_PLAYER'
             }, '*');
+            
+		    try {
+		        syncMediaUI(isPlaying);
+		    } catch(e) {}            
         }
         window.addEventListener('resize', () => {
             let vh = window.innerHeight * 0.01;
@@ -508,3 +539,69 @@ function showToast(message) {
         window.addEventListener('resize', fixHeight);
         window.addEventListener('orientationchange', fixHeight);
         fixHeight();
+
+function copyTrackLink() {
+    const folderId = currentFolderId.split('/').slice(-2, -1)[0] || currentFolderId;
+    const trackPos = currentIdx + 1;
+    
+    const shareUrl = `https://redyq.github.io/RQ.online/amusic?${folderId}_${trackPos}`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            showToast("Ссылка скопирована!");
+        }).catch(() => {
+            showToast("Ошибка");
+        });
+    } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = shareUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast("Ссылка скопирована!");
+        } catch (err) {
+            showToast("Ошибка");
+        }
+        document.body.removeChild(textArea);
+    }
+}
+       
+//*
+function handleVideoError(event) {
+	const videoElement = event.target;
+    const err = videoElement.error;
+    
+    if (!videoElement.src || videoElement.src === window.location.href || videoElement.src.endsWith('.html')) {
+        return;
+    }
+
+    if (!err) return;
+    
+    const videoSrc = event.target.src;
+    
+    showToast("Ошибка загрузки видео");
+    const errorMap = {
+        1: "MEDIA_ERR_ABORTED (Загрузка прервана)",
+        2: "MEDIA_ERR_NETWORK (Ошибка сети/GitHub)",
+        3: "MEDIA_ERR_DECODE (Ошибка кодека/декодирования)",
+        4: "MEDIA_ERR_SRC_NOT_SUPPORTED (404 или формат не поддерживается)"
+    };
+
+    const errorText = errorMap[err.code] || `UNKNOWN_ERROR (Код: ${err.code})`;
+    
+    window.parent.postMessage({
+        type: 'DEBUG_VIDEO',
+        data: {
+            file: videoSrc.split('/').pop(),
+            fullPath: videoSrc,
+            errorDescription: errorText,
+            sysMessage: err.message || "#",
+            readyState: event.target.readyState
+        }
+    }, '*');
+}
+
+videoBg.onerror = handleVideoError;
+fullVideo.onerror = handleVideoError;
+//*

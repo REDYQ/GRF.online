@@ -15,6 +15,7 @@
         }
         document.getElementById('current-year').textContent = new Date().getFullYear();
         const JSON_URL = 'https://raw.githubusercontent.com/REDYQ/Anime_Music/refs/heads/main/file/test/data.json';
+        const BASE_URL = 'https://raw.githubusercontent.com/REDYQ/Anime_Music/refs/heads/main/file/';
         const frame = document.getElementById('player-frame');
         const mini = document.getElementById('mini-player');
         const searchInput = document.getElementById('search-input');
@@ -79,21 +80,24 @@
                 const res = await fetch(JSON_URL);
                 const data = await res.json();
                 data.forEach((item) => {
+		            const fullIconUrl = BASE_URL + item.icon;
+		            const fullDataUrl = BASE_URL + item.data;
+                	
                     const div = document.createElement('div');
                     div.className = 'folder-item';
                     div.setAttribute('data-name', item.name.toLowerCase());
                     div.setAttribute('data-id', item.number);
-                    div.innerHTML = `<img src="${item.icon}" class="folder-icon"><div class="folder-info"><b>${item.name}</b><br></div>`;
+                    div.innerHTML = `<img src="${fullIconUrl}" class="folder-icon"><div class="folder-info"><b>${item.name}</b><br></div>`;
                     div.onclick = () => {
                         isPlayingFavorites = false;
                         sessionStorage.setItem('opened_folder_id', item.number);
                         openFullPlayer();
                         
-                        if (currentLoadedUrl !== item.data) {
-                            currentLoadedUrl = item.data;
+                        if (currentLoadedUrl !== fullDataUrl) {
+                            currentLoadedUrl = fullDataUrl;
                             frame.contentWindow.postMessage({
                                 type: 'LOAD_PLAYLIST',
-                                url: item.data,
+                                url: fullDataUrl,
                                 folderId: item.data,
                                 noPlay: true
                             }, '*');
@@ -283,6 +287,16 @@ function updateTrackListVisuals() {
 }
 
 window.addEventListener('message', (e) => {
+if (e.data.type === 'DEBUG_VIDEO') {
+    const d = e.data.data;
+    console.group("=== ОТЧЕТ ОБ ОШИБКЕ В ВИДЕО ===");
+    console.error("Ошибка:", d.errorDescription);
+    console.log("Имя файла:", d.file);
+    console.log("Полный путь:", d.fullPath);
+    console.warn("Технические детали:", d.sysMessage);
+    console.groupEnd();
+}
+	
     if (e.data.type === 'PLAYER_STATE') {
         
         const trackData = e.data;
