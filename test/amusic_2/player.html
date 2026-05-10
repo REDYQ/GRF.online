@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RQ | Anime_Music</title>
+    <link rel="stylesheet" href="css/player.css">
+</head>
+
+<body>
+
+    <video id="bg-video" loop muted playsinline></video>
+    <div class="modal-overlay" id="overlay"></div>
+    <div id="toast"></div>
+
+    <div id="video-player-container">
+        <div class="v-header">
+            <span id="v-title" style="font-size: 14px; font-weight: bold;">Видео</span>
+            <button class="btn" onclick="closeVideoPlayer(event)" style="color: #F44336; font-weight: bold; font-size: 16px;">Закрыть</button>
+        </div>
+        <video id="full-video" controlsList="nodownload" oncontextmenu="return false;"></video>
+        <div class="v-controls">
+            <div class="progress-container" id="v-p-cont">
+                <div class="progress" id="v-p-bar" style="background: white;"></div>
+            </div>
+            <div class="v-bottom-row">
+                <button class="btn v-play-btn btn-anim" onclick="toggleVideoPlay()">
+                    <svg viewBox="0 0 24 24">
+                        <path id="v-p-path" d="M8 5v14l11-7z" />
+                    </svg>
+                </button>
+                <div class="time-info" style="margin: 0; flex: 1; font-weight: bold;"><span id="v-curr">0:00</span><span id="v-dur">0:00</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="info-modal">
+        <div class="info-item"><span class="info-label">Источник:</span><span id="info-source">-</span></div>
+        <div class="info-item"><span class="info-label">Эпизод:</span><span id="info-episode">-</span></div>
+        <div class="info-item"><span class="info-label">Тип:</span><span id="info-type">-</span> [<span id="info-full">-</span>]</div>
+        <div style="font-size: 13px; margin-top: 35px; opacity: 0.6;">Режим фона:</div>
+        <div class="bg-switcher">
+            <div class="sw-btn active" id="sw-color" onclick="setBgMode('color')">Цвет</div>
+            <div class="sw-btn" id="sw-video" onclick="setBgMode('video')">Видео</div>
+        </div>
+        <button class="btn btn-anim" id="btn-watch-video" style="margin-top: 15px; width: 100%; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 15px; font-size: 13px; font-weight: bold;" onclick="openFullVideo()">Открыть видео</button>
+        <button class="btn btn-anim" style="margin-top: 15px; width: 100%; color: #F44336; font-weight: bold;" onclick="closeModal()">Закрыть</button>
+    </div>
+
+    <div class="screen screen-hidden" id="player-screen">
+
+        <button class="btn btn-anim" id="btn-fav">
+            <svg width="26" height="26" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" "")/>>
+            </svg>
+        </button>
+
+        <div class="btn btn-anim" id="back-to-list" style="position:absolute; top:25px; left:20px;">
+            <svg width="26" height="26" viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+            </svg>
+        </div>
+        <div class="btn btn-anim" id="open-info" style="position:absolute; top:25px; right:20px;">
+            <svg width="26" height="26" viewBox="0 0 24 24">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </div>
+        <div class="top-group">
+            <img id="icon" src="" crossorigin="anonymous">
+            <div class="track-info">
+                <p id="track-name"></p>
+                <p id="track-author"></p>
+            </div>
+        </div>
+        <div style="width: 100%; padding: 0 10px;">
+            <div class="progress-container" id="p-cont">
+                <div class="progress" id="p-bar"></div>
+            </div>
+            <div class="time-info"><span id="curr">0:00</span><span id="dur">0:00</span></div>
+            <div class="controls">
+                <button class="btn btn-side btn-anim" id="shuf">
+                    <svg id="sh-icon" width="20" height="20" viewBox="0 0 24 24"></svg>
+                </button>
+                <button class="btn btn-anim" id="prev">
+                    <svg width="34" height="34" viewBox="0 0 24 24">
+                        <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+                    </svg>
+                </button>
+                <div class="btn-play-wrapper">
+                    <div class="loader" id="loader"></div>
+                    <button class="btn btn-play btn-anim" id="play">
+                        <svg id="play-icon-svg" width="32" height="32" viewBox="0 0 24 24">
+                            <path id="p-path" d="M8 5v14l11-7z" />
+                        </svg>
+                    </button>
+                </div>
+                <button class="btn btn-anim" id="next">
+                    <svg width="34" height="34" viewBox="0 0 24 24">
+                        <path d="M6 18l8.5-6L6 6zm9-12h2v12h-2z" />
+                    </svg>
+                </button>
+                <button class="btn btn-side btn-anim" id="rep">
+                    <svg id="re-icon" width="20" height="20" viewBox="0 0 24 24"></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="screen screen-active" id="playlist-screen">
+        <div style="width:100%; display: flex; justify-content: space-between; align-items: center; padding: 5px 0px 15px 10px;">
+            <span style="font-size:22px; font-weight:bold;">Музыка</span>
+
+            <div style="display: flex; gap: 0px;">
+                <button class="btn btn-anim" onclick="minimizePlayer()" style="padding: 5px; opacity: 0.8;">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M19 13H5v-2h14v2z" />
+                    </svg>
+                </button>
+                <button class="btn btn-anim" onclick="closeFullPlayer()" style="padding: 5px; opacity: 0.8;">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+        <div class="list-container" id="list"></div>
+    </div>
+
+    <audio id="audio" crossorigin="anonymous"></audio>
+
+    <script src="js/player.js"></script>
+</body>
+
+</html>
