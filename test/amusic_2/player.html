@@ -36,6 +36,15 @@
     </div>
 
     <div id="info-modal">
+
+<div class="info-item" style="margin-bottom: 50px">
+	    <button class="btn btn-anim" onclick="copyTrackLink()" style="position: absolute; top: 20px; right: 20px; padding: 10px; opacity: 0.4; z-index: 10;">
+	        <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+	            <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+	        </svg>
+	    </button>
+</div>
+    
         <div class="info-item"><span class="info-label">Источник:</span><span id="info-source">-</span></div>
         <div class="info-item"><span class="info-label">Эпизод:</span><span id="info-episode">-</span></div>
         <div class="info-item"><span class="info-label">Тип:</span><span id="info-type">-</span> [<span id="info-full">-</span>]</div>
@@ -44,6 +53,15 @@
             <div class="sw-btn active" id="sw-color" onclick="setBgMode('color')">Цвет</div>
             <div class="sw-btn" id="sw-video" onclick="setBgMode('video')">Видео</div>
         </div>
+
+<div id="sync-section" style="display: none;">        
+	<div style="font-size: 13px; margin-top: 20px; opacity: 0.6;">Режим синхронизаци:</div>
+	<div class="bg-switcher">
+	    <div class="sw-btn active" id="sync-auto" onclick="setSyncMode('auto')">Авто</div>
+	    <div class="sw-btn" id="sync-smart" onclick="setSyncMode('smart')">По фону</div>
+	</div>
+</div>
+        
         <button class="btn btn-anim" id="btn-watch-video" style="margin-top: 15px; width: 100%; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 15px; font-size: 13px; font-weight: bold;" onclick="openFullVideo()">Открыть видео</button>
         <button class="btn btn-anim" style="margin-top: 15px; width: 100%; color: #F44336; font-weight: bold;" onclick="closeModal()">Закрыть</button>
     </div>
