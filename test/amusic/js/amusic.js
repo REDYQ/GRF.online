@@ -372,6 +372,13 @@ if (isCurrentlyPlaying && mName && mName.innerText !== "-Name-") {
                 frame.style.display = 'none';
                 frame.classList.remove('full-frame');
                 searchContainer.style.display = 'flex';
+                
+                updateTrackListVisuals();
+                
+			    const mini = document.getElementById('mini-player');
+			    if (isCurrentlyPlaying && mini) {
+			        mini.classList.add('active');
+			    }
             }
         });
         loadFolders();

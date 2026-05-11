@@ -86,13 +86,11 @@
                 }
         const isCurrent = isThisFolderPlaying && i === currentIdx;
         const activeClass = isCurrent ? 'active' : '';
+        const playingClass = (isCurrent && isPlaying) ? 'playing' : '';
 
 		const fullIconUrl = BASE_URL + t.icon;
 		const fullMusicUrl = BASE_URL + t.music;
 		
-		const isActuallyPlaying = (audio.src === fullMusicUrl && !audio.paused);
-		const playingClass = isActuallyPlaying ? 'playing' : '';
-
                 html += `
             <div class="track-item ${activeClass} ${playingClass}" id="track-${i}" onclick="selectTrack(${i})" data-src="${fullMusicUrl}">
                 <div class="bars-wrapper"><div class="playing-bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>
@@ -226,7 +224,8 @@
             if (play) {
                 audio.play().catch(() => {});
                 isPlaying = true;
-                sessionStorage.setItem('playing_folder_id', currentFolderId);
+		        playingFolderId = currentFolderId; 
+		        sessionStorage.setItem('playing_folder_id', playingFolderId);
             }
             updatePlayBtn();
             renderPlaylist();
@@ -235,7 +234,7 @@
 
 function syncMediaUI(playing) {
     const t = tracks[currentIdx];
-const playingFolderId = sessionStorage.getItem('playing_folder_id');
+	const playingFolderId = sessionStorage.getItem('playing_folder_id');
     if (currentFolderId !== playingFolderId) {
         return; 
     }
@@ -244,24 +243,14 @@ const playingFolderId = sessionStorage.getItem('playing_folder_id');
     const fullIcon = BASE_URL + t.icon;
     const fullMusic = BASE_URL + t.music;
     
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-            title: t.name,
-            artist: t.autor,
-            artwork: [{ src: fullIconUrl, sizes: '512x512', type: 'image/png' }]
-        });
-        navigator.mediaSession.playbackState = playing ? "playing" : "paused";
-    }
-
-    
     window.parent.postMessage({
         type: 'PLAYER_STATE', 
         isPlaying: playing,
-        folderId: currentFolderId,
+        folderId: playingFolderId,
         name: t.name,
         autor: t.autor,
-        img: fullIconUrl,
-        music: fullMusicUrl
+        img: fullIcon,
+        music: fullMusic
     }, '*');
 }
 
@@ -385,30 +374,21 @@ showToast(isNowFav ? "Добавлено в избранное" : "Удален�
 audio.onplaying = () => {
     isPlaying = true;
     updatePlayBtn();
-    syncMediaUI(true);
     renderPlaylist();
     if (currentBgMode === 'video') videoBg.play().catch(() => {});
-    
-    const currentPlayingSrc = audio.src;
-    document.querySelectorAll('.track-item').forEach(item => {
-        if (item.getAttribute('data-src') === currentPlayingSrc) {
-            item.classList.add('playing');
-        } else {
-            item.classList.remove('playing');
-        }
-    });
+    const item = document.getElementById(`track-${currentIdx}`);
+    if (item) item.classList.add('playing');
+    syncMediaUI(true);
 };
 
 audio.onpause = () => {
     isPlaying = false;
     updatePlayBtn();
-    syncMediaUI(false); 
     renderPlaylist();
     videoBg.pause();
-    
-    document.querySelectorAll('.track-item').forEach(item => {
-        item.classList.remove('playing');
-    });
+    const item = document.getElementById(`track-${currentIdx}`);
+    if (item) item.classList.remove('playing');
+    syncMediaUI(false); 
 };
 
         audio.onended = () => {
@@ -519,10 +499,6 @@ function showToast(message) {
             window.parent.postMessage({
                 type: 'CLOSE_PLAYER'
             }, '*');
-            
-		    try {
-		        syncMediaUI(isPlaying);
-		    } catch(e) {}            
         }
         window.addEventListener('resize', () => {
             let vh = window.innerHeight * 0.01;
@@ -552,10 +528,14 @@ function showToast(message) {
         fixHeight();
 
 function copyTrackLink() {
-    const folderId = currentFolderId.split('/').slice(-2, -1)[0] || currentFolderId;
-    const trackPos = currentIdx + 1;
+const playingFolder = sessionStorage.getItem('playing_folder_id') || currentFolderId;
+
+const folderId = playingFolder.includes('/') 
+    ? playingFolder.split('/').slice(-2, -1)[0] 
+    : playingFolder;    
     
-    const shareUrl = `https://redyq.github.io/RQ.online/amusic?${folderId}_${trackPos}`;
+    const trackPos = currentIdx + 1;
+    const shareUrl = `https://redyq.github.io/RQ.online/test/amusic?${folderId}_${trackPos}`;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(shareUrl).then(() => {
@@ -591,7 +571,7 @@ function handleVideoError(event) {
     
     const videoSrc = event.target.src;
     
-    showToast("Ошибка загрузки видео");
+    showToast("Видео недоступно (MEDIA DECODE / 404)");
     const errorMap = {
         1: "MEDIA_ERR_ABORTED (Загрузка прервана)",
         2: "MEDIA_ERR_NETWORK (Ошибка сети/GitHub)",
