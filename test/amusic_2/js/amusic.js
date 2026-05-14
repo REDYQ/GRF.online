@@ -216,7 +216,7 @@ function openFavorites() {
             event.target.value = '';
         }
 
-        function openFullPlayer() {
+        function openFullPlayer(isFromMini = false) {
             document.body.classList.add('no-scroll');
             document.querySelector('header').classList.add('hide-ui');
             document.querySelector('footer').classList.add('hide-ui');
