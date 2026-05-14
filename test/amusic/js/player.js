@@ -595,7 +595,7 @@ const folderId = playingFolder.includes('/')
     : playingFolder;    
     
     const trackPos = playingIdx + 1;
-    const shareUrl = `https://redyq.github.io/RQ.online/amusic?${folderId}_${trackPos}`;
+    const shareUrl = `https://redyq.github.io/RQ.online/test/amusic?${folderId}_${trackPos}`;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(shareUrl).then(() => {
