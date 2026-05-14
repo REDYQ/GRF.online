@@ -23,7 +23,7 @@
     <div class="container" id="folder-list"></div>
     <div id="toast"></div>
 
-    <div id="mini-player" onclick="openFullPlayer()">
+    <div id="mini-player" onclick="openFullPlayer(true)">
         <img id="m-img" class="mini-img" src="">
         <div class="mini-info">
             <div id="m-name" style="font-size:14px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">-Name-</div>
@@ -49,6 +49,14 @@
     </footer>
 
     <script src="js/amusic.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+
+<script>
+if (window.location.search.includes('debug=1')) {
+    eruda.init();
+}
+</script>
 </body>
 
 </html>
