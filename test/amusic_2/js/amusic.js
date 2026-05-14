@@ -117,7 +117,7 @@
 
 function openFavorites() {
     sessionStorage.setItem('opened_folder_id', "FAVORITES_MODE");
-    openFullPlayer();
+    openFullPlayer(false);
     
     currentLoadedUrl = "FAVORITES_MODE";
     frame.contentWindow.postMessage({
@@ -227,9 +227,12 @@ function openFavorites() {
             searchContainer.style.display = 'none';
             mini.classList.remove('active');
             frame.style.height = window.innerHeight + 'px';
-            frame.contentWindow.postMessage({
-                type: 'OPEN_CURRENT'
-            }, '*');
+            
+            if (isFromMini) {
+                frame.contentWindow.postMessage({
+                    type: 'OPEN_CURRENT'
+                }, '*');
+            }
         }
 
         function togglePlay() {

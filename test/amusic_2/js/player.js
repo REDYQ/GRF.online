@@ -188,11 +188,14 @@
 
             if (play) {
                 const fullVideoUrl = t.video === '#' ? '#' : 'github.com' + t.video.replace('@', '/releases/download/BG/');
-                if (fullVideoUrl !== '#') {
+                if (fullVideoUrl !== '#' && currentBgMode === 'video') {
                     videoBg.preload = "metadata"; 
                     videoBg.src = fullVideoUrl;
                     videoBg.load(); 
-                }            	
+                } else if (currentBgMode === 'color') {
+                    videoBg.removeAttribute('src');
+                    videoBg.load();
+                }
             
                 audio.play().catch(() => {});
                 isPlaying = true;
@@ -279,6 +282,7 @@
             } else {
                 videoBg.style.opacity = 0;
                 videoBg.pause();
+                videoBg.removeAttribute('src');
             }
         }
 
@@ -292,7 +296,7 @@ function syncMediaUI(playing) {
     window.parent.postMessage({
         type: 'PLAYER_STATE', 
         isPlaying: playing,
-        folderId: playingFolderId, // Передаем именно ID ИГРАЮЩЕЙ папки
+        folderId: playingFolderId,
         name: t.name,
         autor: t.autor,
         img: fullIcon,
@@ -482,8 +486,8 @@ audio.onpause = () => {
 			if (e.data.type === 'SELECT_TRACK_BY_INDEX') {
 			    const idx = e.data.index;
 			    if (tracks[idx]) {
-	       		 playingTracks = [...tracks]; // Инициализируем Переменную В
-			        playingIdx = idx;            // Задаем играющий индекс
+	       		 playingTracks = [...tracks];
+			        playingIdx = idx;
 			        playingFolderId = currentFolderId;
 			        sessionStorage.setItem('playing_folder_id', playingFolderId);
 			        
