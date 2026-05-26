@@ -11,6 +11,7 @@
         
         let currentDelayMode = 'auto';
 		let customStartTime = 0;
+		let isFirstVideoCycleDone = false;
 
         const BASE_URL = 'https://raw.githubusercontent.com/REDYQ/Anime_Music/refs/heads/main/file/';
 
@@ -134,6 +135,8 @@
         }
 
         function loadTrack(idx, play) {
+   		 isFirstVideoCycleDone = false; 
+
             const t = playingTracks[idx];
             if (!t) return;
             
@@ -459,33 +462,51 @@ audio.onpause = () => {
                     if (videoBg.paused) videoBg.play().catch(() => {});
                 }
 
-                // Логика подстройки времени
                 let videoPos = 0;
 
-                if (currentDelayMode === 'custom' && customStartTime > 0) {
+                if (currentDelayMode === 'custom' && isFirstVideoCycleDone) {
+                    videoPos = audio.currentTime % videoBg.duration;
+                } 
+                
+                else if (currentDelayMode === 'custom' && customStartTime > 0) {
                     const t = currentPlayingTrackData;
                     const parts = t.video.split('?');
-                    const timeMatch = parts[1].match(/^(\d+)-(\d+)$/);
+                    const timeMatch = parts[1] ? parts[1].match(/^(\d+)-(\d+(?:\.\d+)?)$/) : null;
                     
                     if (timeMatch) {
-                        const targetMusicTime = (parseInt(timeMatch[1], 10) * 60) + parseInt(timeMatch[2], 10);
+                        const minutes = parseInt(timeMatch[1], 10);
+                        const seconds = parseFloat(timeMatch[2]);
+                        const targetMusicTime = (minutes * 60) + seconds;
 
-                        // Проверяем: идет ли еще первый цикл аудио до момента синхронизации?
-                        if (audio.currentTime < targetMusicTime) {
-                            // Период заглушки: видео идет от вычисленного старта до своего конца
+						const firstCycleEndTime = targetMusicTime + (videoBg.duration - customStartTime);
+
+						if (audio.currentTime >= firstCycleEndTime) {
+                            isFirstVideoCycleDone = true;
+                            videoPos = audio.currentTime % videoBg.duration;
+                        } 
+                        else if (audio.currentTime < targetMusicTime) {
                             videoPos = customStartTime + audio.currentTime;
                         } else {
-                            // Синхронизация наступила! Видео сбрасывается в 0 и идет синхронно с музыкой
-                            // Отнимаем targetMusicTime, чтобы видео началось с нуля ровно в эту секунду
                             videoPos = audio.currentTime - targetMusicTime;
                         }
                     }
                 } else {
-                    // Стандартный режим Авто
                     videoPos = audio.currentTime % videoBg.duration;
                 }
 
-                // Корректируем время видео-фона, если оно рассинхронизировалось с расчетным более чем на 0.6 сек
+				if (currentDelayMode === 'custom' && isFirstVideoCycleDone) {
+                    const t = currentPlayingTrackData;
+                    const parts = t.video.split('?');
+                    const timeMatch = parts && parts[1] ? parts[1].match(/^(\d+)-(\d+(?:\.\d+)?)$/) : null;
+                    if (timeMatch) {
+                        const targetMusicTime = (parseInt(timeMatch[1], 10) * 60) + parseFloat(timeMatch[2]);
+                        const firstCycleEndTime = targetMusicTime + (videoBg.duration - customStartTime);
+                        if (audio.currentTime < firstCycleEndTime) {
+                            isFirstVideoCycleDone = false; 
+                        }
+                    }
+                }
+                
                 if (Math.abs(videoBg.currentTime - videoPos) > 0.6) {
                     videoBg.currentTime = videoPos;
                 }
@@ -795,11 +816,11 @@ function calculateCustomDelay() {
     }
 
     const parts = t.video.split('?');
-    const timeMatch = parts[1].match(/^(\d+)-(\d+)$/);
+    const timeMatch = parts[1].match(/^(\d+)-(\d+(?:\.\d+)?)$/);
 
     if (timeMatch) {
         const minutes = parseInt(timeMatch[1], 10);
-        const seconds = parseInt(timeMatch[2], 10);
+        const seconds = parseFloat(timeMatch[2]);
         const targetMusicTime = (minutes * 60) + seconds;
 
         const videoDuration = videoBg.duration;
