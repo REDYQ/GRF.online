@@ -439,6 +439,11 @@ audio.onplaying = () => {
     isPlaying = true;
     updatePlayBtn();
     renderPlaylist();
+    
+    if (audio.currentTime < 1) {
+        isFirstVideoCycleDone = false;
+    }
+    
     if (currentBgMode === 'video') videoBg.play().catch(() => {});
     syncMediaUI(true);
 };
@@ -475,16 +480,21 @@ audio.onpause = () => {
                 else if (currentDelayMode === 'custom' && customStartTime > 0) {
                     const firstCycleEndTime = customStartTime;
 
-                    if (audio.currentTime >= firstCycleEndTime) {
+                    if (audio.currentTime > 1 && audio.currentTime >= firstCycleEndTime) {
                         isFirstVideoCycleDone = true;
                         videoPos = audio.currentTime % videoBg.duration;
                     } 
-                    
                     else if (audio.currentTime < customStartTime) {
                         videoPos = (videoBg.duration - customStartTime) + audio.currentTime;
                     } 
                     else {
-                        videoPos = audio.currentTime - customStartTime;
+                        const exactPos = audio.currentTime - customStartTime;
+
+                        if (exactPos < 0.5) {
+                            videoPos = 0; 
+                        } else {
+                            videoPos = exactPos;
+                        }
                     }
                 } else {
                     videoPos = audio.currentTime % videoBg.duration;
@@ -815,9 +825,4 @@ function calculateCustomDelay() {
         
         customStartTime = (minutes * 60) + seconds; 
     }
-    
-    if (typeof showToast === 'function') {
-            const debugTime = fmt(customStartTime); 
-            showToast(`Отладка Custom: видео сбросится в 0 на ${debugTime}`);
-     }
 }
