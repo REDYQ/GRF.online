@@ -815,4 +815,9 @@ function calculateCustomDelay() {
         
         customStartTime = (minutes * 60) + seconds; 
     }
+    
+    if (typeof showToast === 'function') {
+            const debugTime = fmt(customStartTime); 
+            showToast(`Отладка Custom: видео сбросится в 0 на ${debugTime}`);
+     }
 }
