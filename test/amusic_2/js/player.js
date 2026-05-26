@@ -473,40 +473,28 @@ audio.onpause = () => {
                 } 
                 
                 else if (currentDelayMode === 'custom' && customStartTime > 0) {
-                    const t = currentPlayingTrackData;
-                    const parts = t.video.split('?');
-                    const timeMatch = parts && parts[1] ? parts[1].match(/^(\d+)-(\d+(?:\.\d+)?)$/) : null;
+                    const firstCycleEndTime = customStartTime;
+
+                    if (audio.currentTime >= firstCycleEndTime) {
+                        isFirstVideoCycleDone = true;
+                        videoPos = audio.currentTime % videoBg.duration;
+                    } 
                     
-                    if (timeMatch) {
-                        const minutes = parseInt(timeMatch[1], 10);
-                        const seconds = parseFloat(timeMatch[2]);
-                        const targetMusicTime = (minutes * 60) + seconds;
-
-						const firstCycleEndTime = videoBg.duration - customStartTime;
-
-						if (audio.currentTime >= firstCycleEndTime) {
-                            isFirstVideoCycleDone = true;
-                            videoPos = audio.currentTime % videoBg.duration;
-                        } 
-                        else if (audio.currentTime < targetMusicTime) {
-                            videoPos = customStartTime + audio.currentTime;
-                        } else {
-                            videoPos = audio.currentTime - targetMusicTime;
-                        }
+                    else if (audio.currentTime < customStartTime) {
+                        videoPos = (videoBg.duration - customStartTime) + audio.currentTime;
+                    } 
+                    else {
+                        videoPos = audio.currentTime - customStartTime;
                     }
                 } else {
                     videoPos = audio.currentTime % videoBg.duration;
                 }
 
 				if (currentDelayMode === 'custom' && isFirstVideoCycleDone) {
-                    const t = currentPlayingTrackData;
-                    const parts = t.video.split('?');
-                    const timeMatch = parts && parts[1] ? parts[1].match(/^(\d+)-(\d+(?:\.\d+)?)$/) : null;
-                    if (timeMatch) {
-                        const firstCycleEndTime = videoBg.duration - customStartTime;
-                        if (audio.currentTime < firstCycleEndTime) {
-                            isFirstVideoCycleDone = false; 
-                        }
+                    const firstCycleEndTime = customStartTime;
+                    
+                    if (audio.currentTime < firstCycleEndTime) {
+                        isFirstVideoCycleDone = false; 
                     }
                 }
                 
@@ -824,18 +812,7 @@ function calculateCustomDelay() {
     if (timeMatch) {
         const minutes = parseInt(timeMatch[1], 10);
         const seconds = parseFloat(timeMatch[2]);
-        const targetMusicTime = (minutes * 60) + seconds;
-
-        const videoDuration = videoBg.duration;
-
-        customStartTime = videoDuration - targetMusicTime;
-
-        if (customStartTime < 0) {
-            customStartTime = 0;
-            currentDelayMode = 'auto';
-            document.getElementById('sw-delay-auto').classList.add('active');
-            document.getElementById('sw-delay-custom').classList.remove('active');
-            showToast("Видео слишком короткое для Custom-задержки");
-        }
+        
+        customStartTime = (minutes * 60) + seconds; 
     }
 }
