@@ -482,7 +482,7 @@ audio.onpause = () => {
                         const seconds = parseFloat(timeMatch[2]);
                         const targetMusicTime = (minutes * 60) + seconds;
 
-						const firstCycleEndTime = targetMusicTime + (videoBg.duration - customStartTime);
+						const firstCycleEndTime = videoBg.duration - customStartTime;
 
 						if (audio.currentTime >= firstCycleEndTime) {
                             isFirstVideoCycleDone = true;
@@ -503,8 +503,7 @@ audio.onpause = () => {
                     const parts = t.video.split('?');
                     const timeMatch = parts && parts[1] ? parts[1].match(/^(\d+)-(\d+(?:\.\d+)?)$/) : null;
                     if (timeMatch) {
-                        const targetMusicTime = (parseInt(timeMatch[1], 10) * 60) + parseFloat(timeMatch[2]);
-                        const firstCycleEndTime = targetMusicTime + (videoBg.duration - customStartTime);
+                        const firstCycleEndTime = videoBg.duration - customStartTime;
                         if (audio.currentTime < firstCycleEndTime) {
                             isFirstVideoCycleDone = false; 
                         }
