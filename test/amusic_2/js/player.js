@@ -478,7 +478,7 @@ audio.onpause = () => {
                 } 
                 
                 else if (currentDelayMode === 'custom' && customStartTime > 0) {
-                    const firstCycleEndTime = customStartTime;
+                    const firstCycleEndTime = customStartTime + videoBg.duration;
 
                     if (audio.currentTime > 1 && audio.currentTime >= firstCycleEndTime) {
                         isFirstVideoCycleDone = true;
