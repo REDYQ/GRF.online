@@ -365,6 +365,10 @@ function syncMediaUI(playing) {
                     setTimeout(checkTrackNameLength, 150);
                 }
                 
+                if (typeof calculateCustomDelay === 'function') {
+                    setTimeout(calculateCustomDelay, 200);
+                }
+                
             } else {
                 playScr.classList.remove('screen-active');
                 playScr.classList.add('screen-hidden');
@@ -471,7 +475,7 @@ audio.onpause = () => {
                 else if (currentDelayMode === 'custom' && customStartTime > 0) {
                     const t = currentPlayingTrackData;
                     const parts = t.video.split('?');
-                    const timeMatch = parts[1] ? parts[1].match(/^(\d+)-(\d+(?:\.\d+)?)$/) : null;
+                    const timeMatch = parts && parts[1] ? parts[1].match(/^(\d+)-(\d+(?:\.\d+)?)$/) : null;
                     
                     if (timeMatch) {
                         const minutes = parseInt(timeMatch[1], 10);
