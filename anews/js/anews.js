@@ -165,6 +165,27 @@ const getGalleryUrl = (idx, ext) => ext === 'mp4'
     mediaContainer.style.height = '100%';
     box.appendChild(mediaContainer);
 
+    const controls = document.createElement('div');
+    controls.className = 'gallery-controls';
+	controls.onclick = (e) => e.stopPropagation(); 
+    
+    const blockEvent = (e) => e.stopPropagation();
+    controls.addEventListener('click', blockEvent);
+    controls.addEventListener('mousedown', blockEvent);
+    controls.addEventListener('touchstart', blockEvent);
+
+    const btnPrev = document.createElement('button');
+    btnPrev.className = 'gallery-btn prev-btn';
+    btnPrev.innerText = '‹';
+
+    const btnNext = document.createElement('button');
+    btnNext.className = 'gallery-btn next-btn';
+    btnNext.innerText = '›';
+
+    controls.appendChild(btnPrev);
+    controls.appendChild(btnNext);
+    box.appendChild(controls);
+    
     const tryLoadSlide = (idx) => {
         mediaContainer.innerHTML = '';
         
@@ -178,7 +199,7 @@ const getGalleryUrl = (idx, ext) => ext === 'mp4'
 
         video.oncanplay = () => {
             mediaContainer.appendChild(video);
-            updateGalleryButtons(idx);
+            updateButtonsState(idx);
         };
 
         video.onerror = () => {
@@ -187,7 +208,7 @@ const getGalleryUrl = (idx, ext) => ext === 'mp4'
             img.className = 'card-image';
             img.onload = () => {
                 mediaContainer.appendChild(img);
-                updateGalleryButtons(idx);
+                updateButtonsState(idx);
             };
             img.onerror = () => {
                 mediaContainer.innerHTML = '<div style="color:#555; text-align:center; padding-top:20%;">Ошибка медиа</div>';
@@ -195,37 +216,22 @@ const getGalleryUrl = (idx, ext) => ext === 'mp4'
         };
     };
 
-    const updateGalleryButtons = (idx) => {
-        const oldControls = box.querySelector('.gallery-controls');
-        if (oldControls) oldControls.remove();
-
-        const controls = document.createElement('div');
-        controls.className = 'gallery-controls';
-
-        const btnPrev = document.createElement('button');
-        btnPrev.className = 'gallery-btn prev-btn';
-        btnPrev.innerText = '‹';
-        if (idx === 1) btnPrev.disabled = true;
+    const updateButtonsState = (idx) => {
+        btnPrev.disabled = (idx === 1);
         btnPrev.onclick = (e) => { e.stopPropagation(); tryLoadSlide(idx - 1); };
 
-        const btnNext = document.createElement('button');
-        btnNext.className = 'gallery-btn next-btn';
-        btnNext.innerText = '›';
+        btnNext.disabled = true;
 
-		const nextVidCheck = document.createElement('video');
-		nextVidCheck.src = getGalleryUrl(idx + 1, 'mp4');
-		
-		nextVidCheck.oncanplay = () => { btnNext.disabled = false; };
-		nextVidCheck.onerror = () => {
-		    const nextImgCheck = new Image();
-		    nextImgCheck.src = getGalleryUrl(idx + 1, 'jpg');
-		    nextImgCheck.onload = () => { btnNext.disabled = false; };
-		    nextImgCheck.onerror = () => { btnNext.disabled = true; };
-		};
-
-        controls.appendChild(btnPrev);
-        controls.appendChild(btnNext);
-        box.appendChild(controls);
+        const nextVidCheck = new Image();
+        nextVidCheck.src = getGalleryUrl(idx + 1, 'mp4');
+        nextVidCheck.onload = () => { btnNext.disabled = false; };
+        nextVidCheck.onerror = () => {
+            const nextImgCheck = new Image();
+            nextImgCheck.src = getGalleryUrl(idx + 1, 'jpg');
+            nextImgCheck.onload = () => { btnNext.disabled = false; };
+            nextImgCheck.onerror = () => { btnNext.disabled = true; };
+        };
+        btnNext.onclick = (e) => { e.stopPropagation(); tryLoadSlide(idx + 1); };
     };
 
     tryLoadSlide(currentIdx);
