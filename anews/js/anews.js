@@ -201,7 +201,6 @@ const getGalleryUrl = (idx, ext) => ext === 'mp4'
 
         const controls = document.createElement('div');
         controls.className = 'gallery-controls';
-		controls.onclick = (e) => e.stopPropagation(); 
 
         const btnPrev = document.createElement('button');
         btnPrev.className = 'gallery-btn prev-btn';
@@ -213,22 +212,16 @@ const getGalleryUrl = (idx, ext) => ext === 'mp4'
         btnNext.className = 'gallery-btn next-btn';
         btnNext.innerText = '›';
 
-		btnNext.disabled = true;
+		const nextVidCheck = document.createElement('video');
+		nextVidCheck.src = getGalleryUrl(idx + 1, 'mp4');
 		
-		fetch(getGalleryUrl(idx + 1, 'mp4'), { method: 'HEAD' })
-		    .then(res => {
-		        if (res.ok) {
-		            btnNext.disabled = false;
-		        } else {
-		            return fetch(getGalleryUrl(idx + 1, 'jpg'), { method: 'HEAD' });
-		        }
-		    })
-		    .then(res => {
-		        if (res && res.ok) btnNext.disabled = false;
-		    })
-		    .catch(() => {
-		        btnNext.disabled = true;
-		    });
+		nextVidCheck.oncanplay = () => { btnNext.disabled = false; };
+		nextVidCheck.onerror = () => {
+		    const nextImgCheck = new Image();
+		    nextImgCheck.src = getGalleryUrl(idx + 1, 'jpg');
+		    nextImgCheck.onload = () => { btnNext.disabled = false; };
+		    nextImgCheck.onerror = () => { btnNext.disabled = true; };
+		};
 
         controls.appendChild(btnPrev);
         controls.appendChild(btnNext);
@@ -291,7 +284,19 @@ async function openAnimeNews(id, animeName) {
         if (!res.ok) throw new Error('Ошибка сети при получении новостей');
         
         const newsData = await res.json();
-        renderNewsList(id, Array.isArray(newsData) ? newsData : []);
+        
+        let sortedNews = Array.isArray(newsData) ? newsData : [];
+        sortedNews.sort((a, b) => {
+            const parseDate = (dateStr) => {
+                if (!dateStr) return new Date(0);
+                const [d, m, y] = dateStr.split('.').map(Number);
+                return new Date(y, m - 1, d);
+            };
+            return parseDate(b.publication_date) - parseDate(a.publication_date);
+        });
+
+        renderNewsList(id, sortedNews);
+
     } catch (e) {
         console.error(e);
         newsContainer.innerHTML = `<div class="error-text" style="color:#F44336; text-align:center; padding:20px;">Не удалось загрузить новости для этой папки.</div>`;
