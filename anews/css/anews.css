@@ -214,10 +214,10 @@
 	position: relative;
 	width: 100%;
 	aspect-ratio: 16 / 9;
-	max-height: 220px;
+	max-height: 200px;
 	background: #000;
 	overflow: hidden;
-	transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+	transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-media-box video, .card-image {
@@ -225,11 +225,12 @@
 	height: 100%;
 	object-fit: cover;
 	display: block;
+	transition: object-fit 0.3s ease;
 }
 
 .anime-card:hover .card-media-box, .anime-card:active .card-media-box, .card-media-box.expanded {
 	aspect-ratio: auto !important;
-	max-height: 800px;
+	max-height: 400px;
 }
 
 .anime-card:hover .card-media-box video, .anime-card:hover .card-image, .anime-card:active .card-media-box video, .anime-card:active .card-image, .card-media-box.expanded video, .card-media-box.expanded .card-image {
