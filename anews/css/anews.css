@@ -177,20 +177,19 @@
 }
 
 .cards-grid {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 20px;
+	column-count: 1;
+	column-gap: 20px;
 	width: 100%;
 }
 
 @media (min-width: 600px) {
 	.cards-grid {
-		grid-template-columns: repeat(2, 1fr);
+		column-count: 2;
 	}
 }
 @media (min-width: 900px) {
 	.cards-grid {
-		grid-template-columns: repeat(3, 1fr);
+		column-count: 3;
 	}
 }
 
@@ -200,9 +199,11 @@
 	overflow: hidden;
 	cursor: pointer;
 	transition: transform 0.2s ease, background 0.2s ease;
-	display: flex;
-	flex-direction: column;
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 20px;
 	border: 1px solid rgba(255, 255, 255, 0.05);
+	break-inside: avoid;
 }
 
 .anime-card:hover {
