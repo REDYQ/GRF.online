@@ -1,3 +1,59 @@
+/*Lock Mode*/
+document.documentElement.classList.add('site-locked');
+
+const overlay = document.createElement('div');
+overlay.className = 'site-lock-overlay';
+overlay.innerHTML = `<div class="site-lock-message" id="lock-text">Загрузка конфигурации...</div>`;
+
+const initLoading = () => {
+    if (document.querySelector('.site-lock-overlay')) return;
+    (document.body || document.documentElement).appendChild(overlay);
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLoading);
+} else {
+    initLoading();
+}
+
+(async function checkSiteStatus() {
+    const CURRENT_SITE_NAME = 'amusic'; 
+    const url = 'https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/config.json'; 
+    let message = '';
+    
+    try {
+        const response = await fetch(`${url}?t=${Date.now()}`);
+        const projects = await response.json();
+        const currentProject = projects.find(p => p.name === CURRENT_SITE_NAME);
+        
+        if (!currentProject) {
+        console.warn(`Проект "${CURRENT_SITE_NAME}" не найден. Включена автоблокировка.`);
+        message = 'Доступ ограничен\nСайт не зарегистрирован в системе'; 
+        } else {
+	        if (currentProject.status === 0) {
+	            message = currentProject.lock_info || 'Страница недоступна.';
+	            
+	        } else if (currentProject.status === 2) {
+	            message = currentProject.lock_info || 'Загрузка обновления...';
+	        }
+        }
+    } catch (error) {
+        console.error('Ошибка проверки статуса:', error);
+        message = 'Ошибка безопасности\nНе удалось проверить статус сайта';
+    }
+	      
+	if (message) {
+	    const textElement = document.getElementById('lock-text');
+	    if (textElement) {
+	        textElement.innerText = message;
+	    }
+    } else {
+	     document.documentElement.classList.remove('site-locked');
+	     overlay.remove();
+    }
+})();
+//*
+
         function sortFavoritesBySource() {
             favorites.sort((a, b) => {
                 const sourceA = (a.source || "").toLowerCase();
