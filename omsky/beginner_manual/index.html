@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Omsky TC | Beginner Manual</title>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/asset/logo.jpg">
+  <style>
+    :root { --accent: #F44336; }
+    * { -webkit-tap-highlight-color: transparent; outline: none !important; box-sizing: border-box; }
+    body { background: #000; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 70px; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+
+    header { 
+      position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+      background: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 0 20px; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+   .window {
+  	margin: 5%;
+ 	 flex: 1;
+   }
+  
+    footer {
+      height: 120px;
+      margin-top: auto;
+      padding: 40px 20px;
+      background: #0d1117;
+      border-top: 1px solid #30363d;
+      text-align: center;
+      color: #8b949e;
+      font-size: 14px;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    
+    h1 {
+  	 overflow-wrap: break-word;
+ 	  margin-top: 30px;
+	   margin-bottom: 15px;
+ 	  font-size: 16px;
+	   font-weight: 600;
+    }
+    
+    h2 {
+   	margin-top: 80px;
+  	 color: #2980b9;
+ 	  margin-bottom: 15px;
+ 	  font-size: 18px;
+ 	  font-weight: 600;
+    }
+    
+	p {
+	  font-size: 15px;
+	  line-height: 1.4;
+	  margin-top: 25px;
+	  margin-bottom: 8px;
+	}
+
+	i {
+		color: #BCBCBC;
+	}
+	
+    li:not(:last-child) {
+   	margin-bottom: 15px;
+	}
+
+	.divider {
+	  color: #aaaaaa;
+	  margin: 8px 0;
+	  font-size: 15px;
+	}
+
+	.caution-block {
+	  background-color: #1c2835;
+	  border: none;
+	  border-left: 3px solid #2f6ea5;
+	  border-radius: 7px;
+	  padding: 10px 35px 10px 12px;
+	  color: #ffffff;
+	  max-width: 500px;
+	  margin-top: 4px;
+	  margin-bottom: 12px;
+	  position: relative;
+	}
+
+  .caution-content {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+	.btn-outline {
+	  display: block;
+	  width: 100%;
+	  max-width: 500px;
+	  text-align: center;
+	  padding: 12px 20px;
+	  margin: 16px 0 24px 0;
+	  background: transparent;
+	  color: #2980b9;
+	  border: 1.5px solid #2980b9;
+	  border-radius: 6px;
+	  font-size: 12px;
+	  font-weight: 600;
+	  text-decoration: none;
+	  cursor: pointer;
+	  transition: all 0.2s ease;
+	}
+	
+	.btn-outline:hover {
+	  background: rgba(41, 128, 185, 0.1);
+	}
+
+	#app_comment {
+		position: static;
+	    color: white;
+	    padding: 8px 16px;
+	    margin-bottom: 10px;
+	    font-size: 10px;
+	    text-align: center;
+	    opacity: 0.3;
+	}
+	
+	img {
+		border-radius: 7px;
+		height: 150px;
+		width: auto;
+		margin: 10px;
+	}
+  </style>
+</head>
+<body>
+  <header>
+    <div style="font-weight:bold" id="brand-name">Beginner Manual</div>
+  </header>
+  
+ <div class="window">
+
+<h1 style="text-align: center">📚 Инструкция для новичков</h1>
+
+<h2>💠 1) Вступление</h2>
+<p>Добро пожаловать в Строительную Компанию «OMSKY»!</p>
+<p>Данная инструкция введёт вас в курс дела и расскажет об основных моментах работы в СК.</p>
+<div class="caution-block">
+  <div class="caution-content">
+    Настоятельно рекомендуем к прочтению, если вы впервые на должности ЗАМА СК.
+  </div>
+</div>
+  
+<h2>💠 2) КД, типы строек, их плюсы и минусы</h2>  
+<p>В игре существует 3 вида строек:</p>
+<img src="" alt="Стройка низкого класса">
+<div class="caution-block">
+  <div class="caution-content">
+    1) Стройка низкого класса
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Плюсы: быстрое время выполнения
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Минусы: самая невыгодная стройка. Во многих СК (включая эту) брать такую стройку запрещается
+  </div>
+</div>
+
+<img src="" alt="Стройка среднего класса" style="margin-top: 30px;">
+<div class="caution-block">
+  <div class="caution-content">
+    2) Стройка среднего класса
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Плюсы: средняя премия за выполнение
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Минусы: среднее время выполнения
+  </div>
+</div>
+
+<img src="" alt="Стройка высокого класса" style="margin-top: 30px;">
+<div class="caution-block">
+  <div class="caution-content">
+    3) Стройка высокого класса
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Плюсы: самая высокая премия за выполнение
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Минусы: самая долгая по времени, появляется обязательный этап «Экскаватор» (который требует минимум 500 опыта разнорабочего)
+  </div>
+</div>
+
+<p style="margin-top: 30px;">Стройки берутся в офисе строительных компаний (расположенном в г.Арзамас).</p>
+<img src="" alt="Офис строительных компаний">
+  <div class="caution-block" style="margin-top: 30px;">
+  <div class="caution-content">
+    КД между стройками: 1 час
+  </div>
+  </div>
+  
+<h2>💠 3) Команды и руководство: как нанимать сотрудников</h2>
+<div class="caution-block">
+  <div class="caution-header">
+    <span><b>Меню компании</b></span>
+  </div>
+  <div class="caution-content" style="color: #2980b9;">
+    /bcompany
+  </div>
+</div>
+
+<div class="caution-block">
+  <div class="caution-header">
+    <span><b>Чат компании</b></span>
+  </div>
+  <div class="caution-content" style="color: #2980b9;">
+    /bc <i>[текст сообщения]</i>
+  </div>
+</div>
+
+<p>Найм рабочих — одно из основных занятий ЗАМА СК. Но тут появляются вопросы о том, сколько нужно рабочих, нужны ли они вообще и сколько им платить за работу.</p>
+<p style="margin-bottom: 30px;">На деле однозначного ответа на эти вопросы не существует. Но всё же давайте разберём каждый вопрос подробнее:</p>
+
+<div class="caution-block">
+  <div class="caution-content">
+    Нужно ли нанимать рабочих? 
+  </div>
+</div>
+<p style="margin-top: 0px; margin-bottom: 30px;">Главное, что вы должны помнить, отвечая на этот вопрос: чем больше работников вы наймёте, тем быстрее вы закончите стройку (например, работая в одиночку на стройке высокого класса, вы завершите её примерно за 2 часа, а если будете работать втроём, то сможете закончить примерно за 1 час).</p>
+
+<div class="caution-block">
+  <div class="caution-content">
+    Сколько нужно нанимать рабочих и сколько им платить? 
+  </div>
+</div>
+<p style="margin-top: 0px; margin-bottom: 30px;">Количество рабочих зависит от того, сколько вы готовы им платить. Выберите наиболее реальную зарплату своим рабочим и не забывайте, что игроки не работают бесплатно и выбирают то место, где больше платят (например, если вы платите 50k₽, а ЗАМ другой СК платит 75k₽, то игроки пойдут работать не к вам).</p>
+
+<div class="caution-block">
+  <div class="caution-content">
+    Итоговый чек-лист при найме рабочих:
+  </div>
+</div>
+
+<p style="margin-top: 0px; margin-bottom: 10px;">1) Сколько вы сами сможете заработать, работая с ними? (например, на стройке высокого класса, работая с рабочими, вы можете заработать 100k-200k)</p>
+<p style="margin-top: 0px; margin-bottom: 10px;">2) Сколько вы готовы платить за работу? (лучше выбрать в диапазоне от 50k до 100k)</p>
+<p style="margin-top: 0px; margin-bottom: 30px;">3) Рассчитайте, сколько рабочих вы можете нанять и не уйти при этом в минус.
+
+<p style="margin-bottom: 30px;">Выполнив шаги, описанные выше, пишите в Vip и (или) Global-чат о поиске разнорабочих.</p>
+
+<div class="caution-block">
+  <div class="caution-header">
+    <span><b>Global-чат</b></span>
+  </div>
+  <div class="caution-content" style="color: #2980b9;">
+    /ad <i>[текст сообщения]</i>
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-header">
+    <span><b>Vip-чат</b></span>
+  </div>
+  <div class="caution-content" style="color: #2980b9;">
+    /v <i>[текст сообщения]</i>
+  </div>
+</div>
+
+<p>После того как сотрудник приедет к вам на стройку, вам нужно будет его принять:
+<div class="caution-block">
+  <div class="caution-content" style="color: #2980b9;">
+    /bcompany 2-1
+  </div>
+</div>
+
+<h2>💠 4) Отчёт</h2>
+<p>Отчёт состоит из 4 этапов:</p>
+<div class="caution-block">
+  <div class="caution-content">
+    1) Аренда стройки: после аренды сделайте снимок экрана (скриншот). В чате должно быть написано, что до конца стройки у вас есть 24 часа
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    2) Конец  стройки: после завершения стройки сделайте снимок экрана (скриншот). В чате должно быть написано, что строительная компания завершила объект
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    3) КД: напишите в Telegram-чат компании о завершении объекта в формате: КД {минуты}
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    4) Отчёт: заполните форму (в Telegram-чате компании) о завершении объекта (по шаблону)
+  </div>
+</div>
+
+<h2>💠 5) Заключение</h2>
+<p>Если у вас остались вопросы — напишите их в Telegram-чат компании.</p>
+
+</div>
+ 
+ <div id="app_comment">Инструкция для новичков Строительной Компании «OMSKY» [Black Russia / Green]. Создано при поддержке RQ</div>
+ 
+  <footer>
+    <div>&copy; REDYQ | 2020-<span id="current-year"></span></div>
+    <div style="margin-top: 10px;">
+      <a href="mailto:commoncompanyredyq@gmail.com">Contact Us</a>
+      <a href="https://redyq.github.io/RQ.online/policy">Privacy Policy</a>
+      <a href="https://redyq.github.io/RQ.online/donate">Donate</a>
+    </div>
+  </footer>
+
+  <script>
+ 	document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

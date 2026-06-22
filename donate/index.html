@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>RQ | Donate</title>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/asset/logo.jpg">
+  <style>
+    :root { --accent: #F44336; }
+    * { -webkit-tap-highlight-color: transparent; outline: none !important; box-sizing: border-box; }
+    body { background: #000; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 70px; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+
+    header { 
+      position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+      background: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 0 20px; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+   .window {
+  	margin: 5%;
+ 	 flex: 1;
+   }
+  
+    footer {
+      height: 120px;
+      margin-top: 100px;
+      padding: 40px 20px;
+      background: #0d1117;
+      border-top: 1px solid #30363d;
+      text-align: center;
+      color: #8b949e;
+      font-size: 14px;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    
+    h1 {
+   	color: #add2ff;
+  	 overflow-wrap: break-word;
+    }
+    
+    h2 {
+   	margin-top: 80px;
+  	 color: #2980b9;
+    }
+    
+    li:not(:last-child) {
+   	margin-bottom: 15px;
+	}
+    
+  .caution-block {
+    background-color: #0d1117;
+    border: 1px solid #30363d;	  
+	border-left: 3px solid #f85149;
+    border-radius: 7px;
+    padding: 10px 35px 10px 12px;
+	color: #ffffff;
+	max-width: 500px;
+	margin-top: 4px;
+	margin-bottom: 12px;
+  }
+
+  .caution-header {
+    display: flex;
+    align-items: center;
+    color: #f85149;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: capitalize;
+  }
+
+  .caution-icon {
+    fill: currentColor;
+    margin-right: 8px;
+  }
+
+  .caution-content {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  .donate {
+ 	display: flex;
+	 flex-direction: column;
+	 gap: 10px;
+	margin-bottom: 40px;
+  }
+  
+  a {
+ 	color: #9FA0F3;
+  }
+  
+  a:hover {
+ 	color: #CEAFEB;
+  }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="font-weight:bold" id="brand-name">Donate</div>
+  </header>
+  
+ <div class="window">
+
+<h1>Поддержка разработчика</h1>
+
+<p>В данном разделе можно поддержать разработчика. На данный момент доступны <b>2</b> варианта поддержки:</p>
+<div class="donate">
+	<a href="https://standoff2.com" style="text-decoration: none;"><u>Standoff 2</u></a><span style="color: #BDBDBD; font-size: 10px; margin-bottom: 20px;">[ ID: <b>176033222</b> / Nick_Name: <b>Player_DEX</b> ]</span>
+	<a href="https://blackrussia.online/donate" style="text-decoration: none;"><u>Black Russia</u></a><span style="color: #BDBDBD; font-size: 10px; margin-bottom: 20px;">[ Server: <b>Green</b> / Nick_Name: <b>Dima_Spunarskij</b> ]</span>
+	<a href="#" style="text-decoration: none; color: #888888;"><u>Банковская карта [НЕДОСТУПНО]</u></a><span style="color: #BDBDBD; font-size: 10px; margin-bottom: 20px;">[ Bank: <b>Alpha Bank</b> / Card №: <b>#</b> ]</span>
+</div>
+
+  <div class="caution-block">
+  <div class="caution-header">
+    <svg class="caution-icon" viewBox="0 0 16 16" width="16" height="16">
+      <path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.03 11.315c.621 1.165-.227 2.638-1.543 2.638H1.97c-1.316 0-2.164-1.473-1.543-2.638l6.03-11.315ZM9 5a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0V5Zm-1 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
+    </svg>
+    <span>ВНИМАНИЕ</span>
+  </div>
+  <div class="caution-content">
+    Поддержка является добровольным решением. Возврат средств не предусмотрен!
+  </div>
+  </div>
+
+ </div>
+ 
+  <footer>
+    <div>&copy; REDYQ | 2020-<span id="current-year"></span></div>
+    <div style="margin-top: 10px;">
+      <a href="mailto:commoncompanyredyq@gmail.com">Contact Us</a>
+      <a href="https://redyq.github.io/RQ.online/policy">Privacy Policy</a>
+      <a href="https://redyq.github.io/RQ.online/donate">Donate</a>
+    </div>
+  </footer>
+
+  <script>
+ 	document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
