@@ -1,6 +1,10 @@
 [
   {
+    "name": "none",
+    "status": 0
+  },
+  {
     "name": "omsky",
-    "status": "0"
+    "status": 0
   }
 ]
