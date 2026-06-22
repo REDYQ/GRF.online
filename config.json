@@ -1,7 +1,19 @@
 [
   {
     "name": "none",
-    "status": 0
+    "status": 2
+  },
+  {
+    "name": "alist",
+    "status": 1
+  },
+  {
+    "name": "ealist",
+    "status": 1
+  },
+  {
+    "name": "amusic",
+    "status": 1
   },
   {
     "name": "omsky",
