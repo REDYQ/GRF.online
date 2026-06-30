@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Omsky TC | Event</title>
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/logo.jpg">
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/icon.jpg">
   <style>
     :root { --accent: #F44336; }
     * { -webkit-tap-highlight-color: transparent; outline: none !important; box-sizing: border-box; }
@@ -156,6 +156,13 @@
   .site-locked {
     overflow: hidden !important;
   }
+  
+ .card {
+		margin: 0px 2% 0px 2%;
+		padding: 0px 10px 0px 10px;
+		background: rgba(26, 26, 26, 0.95);
+		border-radius: 20px;
+	}
   </style>
 </head>
 <body>
@@ -164,18 +171,39 @@
   </header>
 
 <h1 style="text-align: center">🎁 Розыгрыши Строительной Компании «OMSKY» <span style="font-size: 10px; color: #888888 !important;">[Black Russia / Green]</span></h1>  
- <div class="window">
+<div class="window">
+ 
+<div class="card">
+	<h4 style="margin-bottom: 0px;">☀️ Летний вайб</h4>
+	<p style="font-size: 10px; margin-bottom: 10px; margin-top: 0px; color: #767676;">[15.06.2026 00:00 - 14.07.2026 23:59]</p>
+	<p style="margin-top: 0px;">Лето в самом разгаре. А это значит, что мы открываем розыгрыш среди своих сотрудников!</p>
+	<div class="caution-block">
+		<div class="caution-content" style="white-space: pre-wrap;">
+ <b>ПРИЗОВОЙ ФОНД:</b>
+🥇 1 МЕСТО — <b>6.000.000</b> ₽
+🥈 2 МЕСТО — <b>3.000.000</b> ₽
+🥉 3 МЕСТО — <b>1.000.000</b> ₽
+<span style="color: #A2A2A2;">—  —  —</span>
+<b>СИСТЕМА БАЛЛОВ:</b>
+• Высокая стройка — <b>+3</b> балла
+• Средняя стройка — <b>+1</b> балл
+• Низкая стройка — <b>+0</b> баллов
+<span style="color: #A2A2A2;">—  —  —</span>
+⚠️ Для участия нужно набрать минимум <b>50</b> баллов. 
+		</div>
+	</div>
+</div>
 
+<!--
 <p>Нет активных розыгрышей...</p>
 <div class="caution-block">
   <div class="caution-content">
     ⚡ Следи за обновлениями, чтобы не пропустить новый розыгрыш!
   </div>
-</div>
-
-</div>
+</div>-->
  
- <div id="app_comment">Розыгрыши Строительной Компании «OMSKY» [Black Russia / Green]. Создано при поддержке RQ</div>
+</div>
+<div id="app_comment">Розыгрыши Строительной Компании «OMSKY» [Black Russia / Green]. Создано при поддержке RQ</div>
  
   <footer>
     <div>&copy; REDYQ | 2020-<span id="current-year"></span></div>
@@ -190,6 +218,7 @@
  	document.getElementById('current-year').textContent = new Date().getFullYear();
  
 /*Lock Mode*/
+/*
 document.documentElement.classList.add('site-locked');
 
 const overlay = document.createElement('div');
@@ -243,6 +272,7 @@ if (document.readyState === 'loading') {
 	     overlay.remove();
     }
 })();
+*/
   </script>
 </body>
 </html>
