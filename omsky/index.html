@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Omsky TC | Home</title>
-	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/logo.jpg">
+	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/icon.jpg">
 	<style>
 	:root { --accent: #F44336; }
 	* { -webkit-tap-highlight-color: transparent; outline: none !important; box-sizing: border-box; }
@@ -184,7 +184,6 @@
 		
 		flex: 1 1 150px;
 		min-width: 60px;
-		max-width: 400px;
 		height: 90px;
 		
 		background-color: rgba(32, 36, 39, 0.8);
@@ -208,12 +207,12 @@
 		font-size: 15px;
 		color: #fff;
 		margin: 0;
+		-webkit-text-stroke: 0.1px black;
 	}
 	
 	.card-link {
 		flex: 1 1 150px;
 		min-width: 60px;
-		max-width: 400px;
 		text-decoration: none;
 		color: inherit;
 		display: block;
@@ -240,8 +239,8 @@
  <div class="window">
 	<div class="card-container">
 
-<a href="https://redyq.github.io/RQ.online/omsky/rules" class="card-link">
-<div class="card">
+<a href="https://redyq.github.io/RQ.online/omsky/rules" class="card-link" style="max-width: 400px;">
+<div class="card" style="max-width: 400px;">
 	<div class="card-icon" style="width: 30px; height: 30px; margin-right: 10px; margin-top: 7px; display: flex; align-items: center; justify-content: center; position: relative;">
 	<div style="position: absolute; width: 100%; height: 100%; background: #ff9f43; filter: blur(10px); opacity: 0.25; pointer-events: none;"></div>
 	<svg viewBox="2 2 12 12" style="width: 100%; height: 100%; display: block; position: relative; z-index: 1;" fill="#ff9f43">
@@ -251,8 +250,8 @@
 	<p class="card-text">Правила</p>
 </div></a>
 
-<a href="https://redyq.github.io/RQ.online/omsky/event" class="card-link">
-<div class="card">
+<a href="https://redyq.github.io/RQ.online/omsky/event" class="card-link" style="max-width: 400px;">
+<div class="card" style="max-width: 400px;">
 	<div class="card-icon" style="width: 30px; height: 30px; margin-right: 12px; margin-top: 7px; display: flex; align-items: center; justify-content: center; position: relative;">
 	<div style="position: absolute; width: 100%; height: 100%; background: #ff9f43; filter: blur(10px); opacity: 0.4; pointer-events: none;"></div>
 	<svg viewBox="0 0 16 16" style="width: 100%; height: 100%; display: block; position: relative; z-index: 1;" fill="none" stroke="#ff9f43" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
@@ -267,8 +266,8 @@
 	<p class="card-text">Розыгрыши</p>
 </div></a>
 
-<a href="https://redyq.github.io/RQ.online/omsky/beginner_manual" class="card-link">
-<div class="card">
+<a href="https://redyq.github.io/RQ.online/omsky/beginner_manual" class="card-link" style="max-width: 400px;">
+<div class="card" style="max-width: 400px;">
 	<div class="card-icon" style="width: 30px; height: 30px; margin-right: 12px; margin-top: 10px; display: flex; align-items: center; justify-content: center; position: relative;">
 	<div style="position: absolute; width: 100%; height: 100%; background: #ff9f43; filter: blur(10px); opacity: 0.4; pointer-events: none;"></div>
 	<svg viewBox="5 5 54 54" style="width: 100%; height: 100%; display: block; position: relative; z-index: 1;" fill="none" stroke="#ff9f43" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -278,6 +277,19 @@
 	</svg>
 	</div>
 	<p class="card-text">Инструкция для новичков</p>
+</div></a>
+
+<a href="https://t.me/BR_Omsky_RQ" class="card-link" style="min-width: 100%;">
+<div class="card" style="min-width: 100%; background-color: rgba(32, 36, 39, 0); border: none; padding: 0px; margin: -15px 0px 0px 0px;">
+	<div class="card-icon" style="width: 30px; height: 30px; margin-right: 6px; margin-top: 10px; display: flex; align-items: center; justify-content: center; position: relative;">
+	<div style="position: absolute; width: 100%; height: 100%; background: #00A6FF; filter: blur(10px); opacity: 0.25; pointer-events: none;"></div>
+	<svg viewBox="230 250 260 220" style="width: 60%; height: 60%; display: block;" fill="#00A6FF">
+		<g transform="translate(0, 720) scale(0.1, -0.1)" fill="#00A6FF" stroke="none">
+			<path d="M4460 4551 c-140 -53 -394 -151 -565 -216 -170 -65 -407 -155 -525 -201 -118 -45 -363 -139 -545 -209 -436 -167 -411 -156 -451 -189 -43 -35 -44 -78 -3 -109 15 -10 163 -61 329 -113 l303 -93 141 87 c78 49 375 235 661 414 286 179 530 330 542 337 31 16 75 14 71 -3 -2 -8 -57 -63 -124 -123 -66 -59 -310 -278 -541 -486 l-421 -378 -6 -57 c-9 -81 -36 -461 -36 -499 0 -27 4 -33 21 -33 35 0 57 17 217 171 l156 148 30 -22 c43 -30 352 -256 464 -339 103 -77 126 -88 181 -88 42 0 84 31 101 75 5 14 100 447 210 961 176 821 199 940 190 972 -18 64 -53 92 -112 92 -18 0 -148 -45 -288 -99z"/>
+		</g>
+	</svg>
+	</div>
+	<p class="card-text" style="font-size: 12px; color: #D0D0D0;"><b>JOIN TELEGRAM</b></p>
 </div></a>
 
 	</div>
