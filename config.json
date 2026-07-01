@@ -4,6 +4,11 @@
     "status": 1
   },
   {
+    "name": "test",
+    "status": 0,
+    "lock_info": "🛠️ В разработке"
+  },
+  {
     "name": "alist",
     "status": 1
   },
