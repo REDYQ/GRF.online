@@ -128,10 +128,11 @@
 	}
 	
 	img {
-		border-radius: 7px;
+		border-radius: 20px;
 		object-fit: contain;
+		width: auto;
+		max-width: 100%;
 		max-height: 400px;
-		width: 100%;
 		margin: 10px;
 		display: block;
 		margin: 0 auto;
@@ -173,7 +174,206 @@
 
 <h1 style="text-align: center">📖 Руководство по эксплуатации Telegram-бота</h1>
 
+<h2>💠 1) Вступление</h2>
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/1.jpg" alt="Фото">
+<p style="margin-top: 10px; margin-bottom: 200px;">1.1 Для начала вам нужно найти бота. Для этого зайдите в главное меню Telegram и откройте окно поиска.</p>
 
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/2.jpg" alt="Фото">
+<p style="margin-top: 10px; margin-bottom: 200px;">1.2 Введите <b>@id</b> бота и выберите его в списке.</p>
+
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/3.jpg" alt="Фото">
+<p style="margin-top: 10px; margin-bottom: 200px;">1.3 После этого запустите бота при помощи кнопки <b>Start Bot</b>.</p>
+
+<h2>💠 2) Начало использования</h2>
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/4.jpg" alt="Фото">
+<p style="margin-top: 10px;">2.1 Перед использованием вам нужно пройти небольшую регистрацию. Вы должны указать свой реальный игровой ник и номер банковского счёта.</p>
+<div class="caution-block" style="margin-bottom: 100px;">
+  <div class="caution-content">
+    Если вы сменили свой Nick_Name и (или) банковский счёт, вам нужно обязательно обновить свои данные в боте (для этого используйте кнопку <b>Профиль</b>).
+  </div>
+</div>
+
+<h2>💠 3) Взаимодействие с ботом</h2>
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/5.jpg" alt="Фото">
+<p style="margin-top: 10px;">3.1 Всем пользователям по умолчанию доступны <b>4 базовые кнопки</b> (для взаимодействия с ботом) и <b>2 специальные команды</b> (/start и /system).</p>
+<div class="caution-block">
+  <div class="caution-content">
+    <b>/start</b> — позволяет перезагрузить бота (если он завис). Также возвращает игрока в главное меню бота и перезагружает панель с кнопками.
+  </div>
+</div>
+<div class="caution-block" style="margin-bottom: 100px;">
+  <div class="caution-content">
+    <b>/system</b> — позволяет просмотреть информацию о боте.
+  </div>
+</div>
+
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/6.jpg" alt="Фото">
+<p style="margin-top: 10px; margin-bottom: 200px;">3.2 <b>КД и Очередь</b> — в этом разделе вы можете встать в очередь, взять стройку или посмотреть её статус, а также посмотреть, сколько осталось времени до окончания КД. Когда подходит очередь игрока, ему даётся <b>10 минут</b> на взятие стройки в боте. Если игрок не успеет к этому времени, то он будет <b>автоматически снят</b> с очереди.</p>
+
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/6_2.jpg" alt="Фото">
+<p style="margin-top: 10px;">3.3 После взятия стройки игроку будет дано <b>3 часа</b> (180 минут) на её выполнение. Если игрок не закончит её к этому времени, то он будет <b>автоматически удалён</b> с неё по причине AFK. Также под сообщением появятся <b>3 кнопки</b>:</p>
+<div class="caution-block">
+  <div class="caution-content">
+    • <b>Завершить и сдать отчёт</b> — установит КД и направит игрока заполнять отчёт.
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • <b>Запросить помощь</b> — если игрок по каким-то причинам не может завершить стройку, он может запросить помощь у всех игроков СК. <b>Важное замечание: очки рейтинга, зарплату и отчёт в недельную норму он не получит</b>.
+  </div>
+</div>
+<div class="caution-block" style="margin-bottom: 100px;">
+  <div class="caution-content">
+    • <b>Отменить взятие</b> — если игрок взял стройку только в боте, но не брал её в игре, то он может отменить взятие.
+  </div>
+</div>
+
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/7.jpg" alt="Фото">
+<p style="margin-top: 10px; margin-bottom: 200px;">3.4 <b>Профиль</b> — в этом разделе вы можете ознакомиться с информацией о себе и изменить личные данные (при необходимости).</p>
+
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/8.jpg" alt="Фото">
+<p style="margin-top: 10px; margin-bottom: 200px;">3.5 <b>Розыгрыши</b> — в этом разделе вы можете посмотреть активные розыгрыши компании.</p>
+
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/9.jpg" alt="Фото">
+<p style="margin-top: 10px; margin-bottom: 200px;">3.6 <b>Топ недели</b> (или просто «Топ») — в этом разделе вы можете ознакомиться со статистикой за неделю и статистикой по розыгрышу (если он активен).</p>
+
+<h2>💠 4) Порядок взятия стройки</h2>
+<div class="caution-block">
+  <div class="caution-content">
+    1) Взять стройку в боте
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    2) Взять стройку в игре
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    3) Закончить стройку в игре
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    4) Закончить стройку в боте
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    5) Отправить в Telegram-группу СК время завершения стройки в формате: <b>КД {минуты}</b>
+  </div>
+</div>
+
+<h2>💠 5) Команды админов</h2>
+<img src="https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/omsky/asset/tgbm/10.jpg" alt="Фото">
+<p style="margin-top: 10px;">5.1 Админам доступны дополнительные <b>8 специальных  команд</b> для удобного взаимодействия с ботом.</p>
+<div class="caution-block">
+  <div class="caution-content">
+    <b>/check_reports</b> — позволяет просмотреть отправленные игроками отчёты (доступно 2 режима: Серверный (хранит недельную информацию, сбрасывается каждую неделю) и Локальный (загружается при помощи специального файла, который можно получить при экспорте)).
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    <b>/import</b> — позволяет загрузить актуальные данные, удаляя при этом все предыдущие.
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    <b>/export</b> — позволяет получить BackUP системы (с данными игроков и их отчётами).
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    <b>/skip_kd</b> — позволяет аннулировать активное КД в боте.
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    <b>/reset_event</b> — позволяет сбросить счётчик очков ивента (пригодятся перед созданием розыгрыша).
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    <b>/force_report</b> — позволяет получить отчёт до автоматической рассылки. По желанию админ может удалить недельные данные (как это происходит при автоматической рассылке).
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    <b>/kick_player</b> — позволяет принудительно снять игрока с объекта (на отправку отчёта не влияет). Пригодится, если игрок по каким-то причинам не может отменить стройку вручную.
+  </div>
+</div>
+<div class="caution-block" style="margin-bottom: 100px;">
+  <div class="caution-content">
+    <b>/add_report</b> — позволяет админу вручную добавить отчёт игрока. Для данного действия требуется <b>UID</b> игрока (можно получить в боте <span style="color: #2980b9">@myidbot</span>). Работает как обычная процедура заполнения отчёта. Пригодится, если игрок по каким-то причинам не смог отправить отчёт вручную (завис бот или по другой причине).
+  </div>
+</div>
+
+<h2>💠 6) Возможности админов</h2>
+<div class="caution-block">
+  <div class="caution-content">
+    • Даёт доступ ко всем командам.
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Добавляет специальные кнопки под сообщениями в некоторых режимах.
+  </div>
+</div>
+
+<h2>💠 7) Автоматизация бота</h2>
+<div class="caution-block">
+  <div class="caution-content">
+    • <b>Каждую субботу в 23:59</b> (по МСК) отсылает недельный отчёт всем админам, после чего сбрасывает информацию за неделю у всех игроков.
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Автоматически считает зарплату игрока и его баллы в рейтинге.
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Отслеживает КД, статус стройки, срочные задания, очередь, активные розыгрыши и недельную норму игрока.
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Не позволяет игроку взять стройку вне очереди.
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Требует подтверждения на особые действия (сброс данных и т.п.) в виде кодовой фразы.
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    • Рассылает срочные задания и уведомления о подошедшей очереди.
+  </div>
+</div>
+
+<h2>💠 8) Ограничения админов</h2>
+<p style="margin-top: 10px;">8.1 Некоторые действия ограничены для всех админов в целях предотвращения нежелательных действий (удаление/подмена данных и т.п.). Вот список мест, которые заблокированы для обычных админов:</p>
+<div class="caution-block">
+  <div class="caution-content">
+    /import
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    /reset_event
+  </div>
+</div>
+<div class="caution-block">
+  <div class="caution-content">
+    /add_report
+  </div>
+</div>
+
+</div>
+ 
+ <div id="app_comment">Руководство по эксплуатации Telegram-бота Строительной Компании «OMSKY» [Black Russia / Green]. Создано при поддержке RQ</div>
+ 
   <footer>
     <div>&copy; REDYQ | 2020-<span id="current-year"></span></div>
     <div style="margin-top: 10px;">
@@ -205,7 +405,7 @@ if (document.readyState === 'loading') {
 }
 
 (async function checkSiteStatus() {
-    const CURRENT_SITE_NAME = 'test'; 
+    const CURRENT_SITE_NAME = 'omsky'; 
     const url = 'https://raw.githubusercontent.com/REDYQ/RQ.online/refs/heads/main/config.json'; 
     let message = '';
     
