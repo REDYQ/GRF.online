@@ -1,1 +1,1 @@
-Virtual Space by RQ.online
+Virtual Space Server.
