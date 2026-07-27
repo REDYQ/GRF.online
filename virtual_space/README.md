@@ -1,1 +1,1 @@
-Virtual Space Server.
+Virtual Space SERVER.
