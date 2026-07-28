@@ -50,10 +50,10 @@
 — — —<br>
 <h3>zone: Test</h3>
 <ul>
-  <li><b>amusic</b></li>
-  <li><b>amusic_2</b></li>
-  <li><b>anews</b></li>
-  <li><b>anews_2</b></li>
+  <li><b>❌ amusic</b></li>
+  <li><b>✅ amusic_2</b></li>
+  <li><b>🕒 anews</b></li>
+  <li><b>🕒 anews_2</b></li>
 </ul>
 — — —<br>
 <h3>zone: Project</h3>
