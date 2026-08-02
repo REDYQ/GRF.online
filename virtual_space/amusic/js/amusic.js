@@ -14,7 +14,7 @@
             localStorage.setItem('rq_favorites', JSON.stringify(favorites));
         }
         document.getElementById('current-year').textContent = new Date().getFullYear();
-        const JSON_URL = 'https://raw.githubusercontent.com/REDYQ/Anime_Music/refs/heads/main/file/data.json';
+        const JSON_URL = 'https://raw.githubusercontent.com/REDYQ/Anime_Music/refs/heads/main/file/data_new.json';
         const BASE_URL = 'https://raw.githubusercontent.com/REDYQ/Anime_Music/refs/heads/main/file/';
         const frame = document.getElementById('player-frame');
         const mini = document.getElementById('mini-player');
