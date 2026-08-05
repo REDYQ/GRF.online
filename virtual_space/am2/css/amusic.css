@@ -87,6 +87,7 @@ body {
 	width: 100%;
 	padding: 25px 40px;
 	background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+	z-index: 50 !important; 
 	pointer-events: none;
 }
 
@@ -181,7 +182,7 @@ body {
 .header-options {
 	display: flex;
 	gap: 12px;
-	pointer-events: auto;
+	pointer-events: auto !important;
 }
 
 .opt-btn {
