@@ -603,11 +603,17 @@ function startBgVideoForTrack(track) {
     bgVideo.loop = true; 
     bgVideo.muted = true;
     bgVideo.src = fullVideoUrl;
-    bgVideo.style.opacity = 1;
     bgVideo.load();
 
     bgVideo.onloadedmetadata = () => {
-        updateBgVisual();
+        const waitForAudio = () => {
+            if (!audioCore.duration || isNaN(audioCore.duration) || audioCore.duration === 0) {
+                requestAnimationFrame(waitForAudio);
+            } else {
+                updateBgVisual();
+            }
+        };
+        waitForAudio();
     };
 }
 
