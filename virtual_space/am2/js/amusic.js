@@ -200,7 +200,7 @@ function loadTrack(idx, shouldPlay) {
 		const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
 		
 		if (r > 215 && g > 215 && b > 215) {
-			document.documentElement.style.setProperty('--bg-dynamic', '--accent');
+			document.documentElement.style.setProperty('--bg-dynamic', 'var(--accent)');
 		} else {
 			document.documentElement.style.setProperty('--bg-dynamic', `rgb(${r},${g},${b})`);
 		}
@@ -501,43 +501,40 @@ function startBgVideoForTrack(track) {
 		return;
 	}
 
+	bgVideo.loop = false;
 	bgVideo.muted = true;
-	bgVideo.autoplay = true;
-	bgVideo.setAttribute('playsinline', ''); 
-	bgVideo.setAttribute('webkit-playsinline', '');
-	
 	bgVideo.src = fullVideoUrl;
 	bgVideo.style.opacity = 1;
 	bgVideo.load();
 	
-	bgVideo.play().catch(() => {
-		const forcePlay = () => {
-			bgVideo.play().catch(() => {});
-			document.removeEventListener('click', forcePlay);
-		};
-		document.addEventListener('click', forcePlay);
-	});
-	
-	bgVideo.onloadedmetadata = () => {
-		if (!isPlaying) return;
+    const checkAndPlay = () => {
+        if (!bgVideo.duration || !audioCore.duration || isNaN(audioCore.duration) || isNaN(bgVideo.duration)) {
+            requestAnimationFrame(checkAndPlay);
+            return;
+        }
 
-		if (currentBgMode === 'auto') {
-			bgVideo.currentTime = audioCore.currentTime;
-			bgVideo.play().catch(() => {});
-		} else if (currentBgMode === 'custom') {
-			triggerCustomBgSync();
-		}
-	};
+        if (!isPlaying) return;
+
+        if (currentBgMode === 'auto') {
+            bgVideo.currentTime = audioCore.currentTime % bgVideo.duration;
+            bgVideo.play().catch(() => {});
+        } else if (currentBgMode === 'custom') {
+            triggerCustomBgSync();
+        }
+    };
+    
+    requestAnimationFrame(checkAndPlay);
 }
 
 function triggerCustomBgSync() {
-	if (!bgVideo.duration || !audioCore.duration) return;
-	const remainder = audioCore.duration % bgVideo.duration;
-	const startOffset = bgVideo.duration - remainder;
-	const targetVideoTime = (audioCore.currentTime + startOffset) % bgVideo.duration;
-	
-	bgVideo.currentTime = targetVideoTime;
-	bgVideo.play().catch(() => {});
+    if (!bgVideo.duration || !audioCore.duration || isNaN(audioCore.duration) || isNaN(bgVideo.duration)) return;
+
+    const remainder = audioCore.duration % bgVideo.duration;
+    const startOffset = bgVideo.duration - remainder;
+    const expectedVideoTime = (audioCore.currentTime + startOffset) % bgVideo.duration;
+    
+    bgVideo.currentTime = expectedVideoTime;
+    bgVideo.play().catch(() => {});
 }
 
 function nextTrack() {
@@ -626,19 +623,22 @@ audioCore.ontimeupdate = () => {
 		timeTextNode.innerText = `${formatTime(audioCore.currentTime)} / ${formatTime(audioCore.duration)}`;
 	}
 
-	if (bgVideo.src && bgVideo.duration) {
+	if (bgVideo.src && bgVideo.duration && !isNaN(bgVideo.duration)) {
 		if (currentBgMode === 'auto') {
+			const targetTime = audioCore.currentTime % bgVideo.duration;
 			if (Math.abs(bgVideo.currentTime - audioCore.currentTime) > 0.5) {
-				bgVideo.currentTime = audioCore.currentTime;
+				bgVideo.currentTime = targetTime;
 			}
+			if (bgVideo.paused && isPlaying) bgVideo.play().catch(() => {});
 		} else if (currentBgMode === 'custom') {
 			const remainder = audioCore.duration % bgVideo.duration;
 			const startOffset = bgVideo.duration - remainder;
 			const expectedVideoTime = (audioCore.currentTime + startOffset) % bgVideo.duration;
 
 			if (Math.abs(bgVideo.currentTime - expectedVideoTime) > 0.6) {
-				bgVideo.currentTime = expectedVideoTime;
-			}
+                bgVideo.currentTime = expectedVideoTime;
+            }
+            if (bgVideo.paused && isPlaying) bgVideo.play().catch(() => {});
 		}
 	}
 };
