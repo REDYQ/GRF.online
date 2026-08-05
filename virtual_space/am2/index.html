@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMusic v2 | PC Edition</title>
+    <link rel="stylesheet" href="css/amusic.css">
+</head>
+<body>
+    <section class="screen-section" id="player-section">
+        <video id="bg-video" loop muted playsinline controlsList="nodownload" oncontextmenu="return false;"></video>
+        <div class="overlay" id="ui-overlay" onclick="closeDropdowns()"></div>
+
+        <header class="player-ui" id="ui-header">
+            <div class="brand">AMusic v2</div>
+        </header>
+
+        <div class="track-card player-ui" id="ui-track-info">
+            <div id="player-source" class="meta-source">- ИСТОЧНИК ТАЙТЛА -</div>
+            <h1 id="player-name" class="meta-name">- Название трека -</h1>
+            <h2 id="player-author" class="meta-author">- Автор исполнитель -</h2>
+        </div>
+
+        <div class="video-versions-panel player-ui" id="ui-versions-panel">
+            <div class="versions-scroll" id="versions-container">
+            </div>
+        </div>
+
+        <div class="main-controls player-ui" id="ui-controls">
+            <button class="btn-main-play" id="main-play-btn" onclick="togglePlay()">
+                <svg viewBox="0 0 24 24" id="main-play-icon">
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+            </button>
+        </div>
+        
+        <div class="bottom-timeline-container">
+            <div class="bottom-timeline-bar" id="bottom-progress"></div>
+        </div>
+    </section>
+
+    <section class="screen-section" id="playlist-section">
+        <div class="playlist-container">
+            
+            <div class="playlist-header">
+                <div class="pos-indicator" id="tracks-counter">0 / 0</div>
+                
+                <div class="search-wrapper">
+                    <input type="text" id="search-input" placeholder="Поиск по названию или аниме..." oninput="handleSearch()">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    </svg>
+                </div>
+                
+                <div class="header-tools">
+                    <div class="dropdown-wrapper">
+                        <button class="tool-btn" id="eye-btn" onclick="toggleEyeMenu(event)">
+                            <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                        </button>
+                        <div class="eye-dropdown" id="eye-menu">
+                            <label class="check-item"><input type="checkbox" id="chk-source" checked onchange="updateVisibility()"> Источник</label>
+                            <label class="check-item"><input type="checkbox" id="chk-name" checked onchange="updateVisibility()"> Название</label>
+                            <label class="check-item"><input type="checkbox" id="chk-author" checked onchange="updateVisibility()"> Автор</label>
+                            <label class="check-item"><input type="checkbox" id="chk-versions" checked onchange="updateVisibility()"> Версии фона</label>
+                            <label class="check-item"><input type="checkbox" id="chk-controls" checked onchange="updateVisibility()"> Кнопка Play</label>
+                        </div>
+                    </div>
+
+                    <button class="tool-btn" id="shuffle-btn" onclick="toggleShuffle()">
+                        <svg viewBox="0 0 24 24" id="shuffle-icon"></svg>
+                    </button>
+
+                    <button class="tool-btn" id="loop-btn" onclick="toggleLoopMode()">
+                        <svg viewBox="0 0 24 24" id="loop-icon"></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tracks-list-scroll" id="tracks-html-list">
+            </div>
+
+            <div class="fixed-mini-controller" id="list-mini-player">
+                <div class="mini-timeline-wrapper" id="mini-progress-container" onclick="handleProgressBarClick(event)">
+                    <div class="mini-timeline-bar" id="mini-progress-bar"></div>
+                </div>
+                <div class="mini-controls-row">
+                    <div class="mini-info-text">
+                        <span id="mini-player-name">Трек не выбран</span>
+                        <span id="mini-player-time">0:00 / 0:00</span>
+                    </div>
+                    <div class="mini-buttons">
+                        <button class="mini-nav-btn" onclick="prevTrack()">
+                            <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                        </button>
+                        <button class="mini-play-btn" onclick="togglePlay()">
+                            <svg viewBox="0 0 24 24" id="mini-play-icon-svg"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                        <button class="mini-nav-btn" onclick="nextTrack()">
+                            <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zm9-12h2v12h-2z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <audio id="audio-core" crossorigin="anonymous"></audio>
+
+    <script src="js/amusic.js"></script>
+</body>
+</html>
