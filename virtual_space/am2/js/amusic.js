@@ -33,7 +33,7 @@ const SVG_ICONS = {
 	shRan: '<path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.45 20 9.5V4h-5.5zm.59 10.83l-1.41 1.41 3.13 3.13L14.5 22H20v-5.5l-2.04 2.04-3.37-3.37z"/>',
 	loopOff: '<path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>',
 	loopOne: '<path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z"/>',
-	loopAll: '<path d="M2 10V5h5v2H4v3H2zm16-5h5v5h-2V7h-3V5zM4 14H2v5h5v-2H4v-3zm19 0v5h-5v-2h3v-3h2z"/>'
+	loopAll: '<path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>'
 };
 
 const formatTime = (seconds) => {
@@ -66,7 +66,7 @@ const closeDropdowns = () => {
 
 async function initApp() {
 	const listContainer = document.getElementById('tracks-html-list');
-	listContainer.innerHTML = '<div style="padding: 30px; text-align: center; opacity: 0.5;">Загрузка медиатеки v2...</div>';
+	listContainer.innerHTML = '<div style="padding: 30px; text-align: center; opacity: 0.5; font-size: 18px;">Загрузка медиатеки...<br>Это может занять какое-то время</div>';
 
 	try {
 		const response = await fetch(MAIN_JSON_URL);
@@ -127,7 +127,7 @@ function renderPlaylist() {
 		const playingClass = (isCurrent && isPlaying) ? 'playing' : '';
 
 		const trackIconPath = track.icon ? track.icon : track.folderIcon;
-		const fullIconUrl  = BASE_URL + trackIconPath;
+		const fullIconUrl = BASE_URL + trackIconPath;
 		const fullMusicUrl = BASE_URL + track.music;
 
 		html += `
@@ -180,8 +180,9 @@ function loadTrack(idx, shouldPlay) {
 
 	document.getElementById('player-name').innerText = track.name;
 	document.getElementById('player-author').innerText = track.autor;
+	const epLabel = track.episode ? ` (Episode: ${track.episode})` : '';
 	const typeLabel = track.type ? ` | ${track.type}` : '';
-	document.getElementById('player-source').innerText = `${track.source || 'ANIME'}${typeLabel}`;
+	document.getElementById('player-source').innerText = `${track.source || 'ANIME'}${epLabel}${typeLabel}`;
 	document.getElementById('mini-player-name').innerText = `${track.name} — ${track.autor}`;
 
 	let volValue = parseInt(track.volume_master);
@@ -197,7 +198,12 @@ function loadTrack(idx, shouldPlay) {
 		canvas.height = 1; 
 		ctx.drawImage(img, 0, 0, 1, 1);
 		const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-		document.documentElement.style.setProperty('--bg-dynamic', `rgb(${r},${g},${b})`);
+		
+		if (r > 215 && g > 215 && b > 215) {
+			document.documentElement.style.setProperty('--bg-dynamic', '--accent');
+		} else {
+			document.documentElement.style.setProperty('--bg-dynamic', `rgb(${r},${g},${b})`);
+		}
 	};
 
 	buildVideoVersionsPanel(track);
@@ -261,7 +267,7 @@ function toggleShuffle() {
 
 	if (isShuffle) {
 		shuffleBtn.classList.add('active-shuffle');
-		showToast("Перемешано: случайный порядок");
+		showToast("Случайный порядок");
 
 		for (let i = currentTracks.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
@@ -269,7 +275,7 @@ function toggleShuffle() {
 		}
 	} else {
 		shuffleBtn.classList.remove('active-shuffle');
-		showToast("Оригинальный порядок из JSON");
+		showToast("Порядок по умолчанию");
 		
 		const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
 		if (searchVal) {
@@ -292,9 +298,9 @@ function toggleLoopMode() {
 	loopMode = (loopMode + 1) % 3;
 	audioCore.loop = (loopMode === 1);
 
-	if (loopMode === 0) showToast("Повтор выключен (стоп в конце)");
+	if (loopMode === 0) showToast("Повтор выключен");
 	if (loopMode === 1) showToast("Повтор текущей композиции");
-	if (loopMode === 2) showToast("Повтор всего списка по кругу");
+	if (loopMode === 2) showToast("Повтор всего списка");
 
 	updateSystemIcons();
 }
@@ -383,7 +389,7 @@ async function fetchVideoConfigs() {
 		globalVideoConfigsCache = await res.json();
 		return globalVideoConfigsCache;
 	} catch (err) {
-		console.warn("Файл video_config.json не обнаружен. Будет включен 1 фон по умолчанию.", err);
+		console.warn("Файл video_config.json не обнаружен.", err);
 		globalVideoConfigsCache = [];
 		return globalVideoConfigsCache;
 	}
@@ -665,5 +671,32 @@ function syncMediaSession(track) {
 		navigator.mediaSession.setActionHandler('previoustrack', prevTrack);
 		navigator.mediaSession.setActionHandler('play', () => audioCore.play());
 		navigator.mediaSession.setActionHandler('pause', () => audioCore.pause());
+	}
+}
+
+function toggleBgMode() {
+	currentBgMode = (currentBgMode === 'auto') ? 'custom' : 'auto';
+	document.getElementById('bg-mode-btn').innerText = `Режим: ${currentBgMode === 'auto' ? 'Auto' : 'Custom'}`;
+	showToast(`Режим видео-фона: ${currentBgMode.toUpperCase()}`);
+	
+	if (playingIdx !== -1) {
+		startBgVideoForTrack(originalTracks[playingIdx]);
+	}
+}
+
+function toggleVideoFit() {
+	const videoNode = document.getElementById('bg-video');
+	if (!videoNode) return;
+	
+	if (videoNode.style.objectFit === 'contain') {
+		videoNode.style.objectFit = 'cover';
+		document.getElementById('video-fit-btn').innerText = 'Маштаб: На весь экран';
+		showToast("Видео растянуто на весь экран");
+	} else {
+		videoNode.style.objectFit = 'contain';
+		videoNode.style.width = '100%';
+		videoNode.style.height = '100%';
+		document.getElementById('video-fit-btn').innerText = 'Маштаб: Сохранить пропорции';
+		showToast("Сохранены оригинальные пропорции");
 	}
 }
