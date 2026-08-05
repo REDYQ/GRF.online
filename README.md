@@ -54,6 +54,9 @@
   <li>
     <b>Anime Music (amusic)</b>
   </li>
+  <li>
+    <b>AMusic v2 (am2)</b>
+  </li>
 </ul>
 — — —<br>
 <h3>zone: Test</h3>
