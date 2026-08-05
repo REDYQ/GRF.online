@@ -489,54 +489,6 @@ function updateMetaFromVideoConfig(track, version, trackConfig) {
 	}
 }
 
-function startBgVideoForTrack(track) {
-	const fullMusicKey = track.music;
-	const selectedVersion = savedTrackVideoVersions[fullMusicKey] || 1;
-	const fullVideoUrl = generateVideoUrlByVersion(track.video, selectedVersion);
-
-	if (fullVideoUrl === '#') {
-		bgVideo.removeAttribute('src');
-		bgVideo.style.opacity = 0;
-		bgVideo.load();
-		return;
-	}
-
-	bgVideo.loop = false;
-	bgVideo.muted = true;
-	bgVideo.src = fullVideoUrl;
-	bgVideo.style.opacity = 1;
-	bgVideo.load();
-	
-    const checkAndPlay = () => {
-        if (!bgVideo.duration || !audioCore.duration || isNaN(audioCore.duration) || isNaN(bgVideo.duration)) {
-            requestAnimationFrame(checkAndPlay);
-            return;
-        }
-
-        if (!isPlaying) return;
-
-        if (currentBgMode === 'auto') {
-            bgVideo.currentTime = audioCore.currentTime % bgVideo.duration;
-            bgVideo.play().catch(() => {});
-        } else if (currentBgMode === 'custom') {
-            triggerCustomBgSync();
-        }
-    };
-    
-    requestAnimationFrame(checkAndPlay);
-}
-
-function triggerCustomBgSync() {
-    if (!bgVideo.duration || !audioCore.duration || isNaN(audioCore.duration) || isNaN(bgVideo.duration)) return;
-
-    const remainder = audioCore.duration % bgVideo.duration;
-    const startOffset = bgVideo.duration - remainder;
-    const expectedVideoTime = (audioCore.currentTime + startOffset) % bgVideo.duration;
-    
-    bgVideo.currentTime = expectedVideoTime;
-    bgVideo.play().catch(() => {});
-}
-
 function nextTrack() {
 	if (currentTracks.length === 0) return;
 
@@ -590,58 +542,111 @@ function prevTrack() {
 	}
 }
 
-audioCore.onplaying = () => {
-	isPlaying = true;
-	updatePlayButtonsUI();
-	renderPlaylist();
-	if (bgVideo.src) {
-		if (currentBgMode === 'auto') bgVideo.play().catch(() => {});
-		if (currentBgMode === 'custom') triggerCustomBgSync();
-	}
+/*=====*/
+function setBgMode(mode) {
+    if (mode === 'auto' || mode === 'custom') {
+        currentBgMode = mode;
+        
+        const bgModeBtn = document.getElementById('bg-mode-btn');
+        if (bgModeBtn) {
+            bgModeBtn.innerText = `Режим: ${mode === 'auto' ? 'Auto' : 'Custom'}`;
+        }
+        
+        updateBgVisual();
+    }
+}
+
+function toggleBgMode() {
+    const nextMode = (currentBgMode === 'auto') ? 'custom' : 'auto';
+    setBgMode(nextMode);
+    showToast(`Режим видео-фона: ${nextMode.toUpperCase()}`);
+}
+
+function updateBgVisual() {
+    if (!bgVideo.src || isNaN(audioCore.duration) || isNaN(bgVideo.duration) || bgVideo.duration === 0) {
+        return;
+    }
+
+    if (currentBgMode === 'auto') {
+        const targetTime = audioCore.currentTime % bgVideo.duration;
+        if (Math.abs(bgVideo.currentTime - targetTime) > 0.5) {
+            bgVideo.currentTime = targetTime;
+        }
+    } else if (currentBgMode === 'custom') {
+        const remainder = audioCore.duration % bgVideo.duration;
+        const startOffset = bgVideo.duration - remainder;
+        const expectedVideoTime = (audioCore.currentTime + startOffset) % bgVideo.duration;
+
+        if (Math.abs(bgVideo.currentTime - expectedVideoTime) > 0.6) {
+            bgVideo.currentTime = expectedVideoTime;
+        }
+    }
+
+    if (isPlaying && !audioCore.paused) {
+        if (bgVideo.paused) bgVideo.play().catch(() => {});
+    } else {
+        if (!bgVideo.paused) bgVideo.pause();
+    }
+}
+
+function startBgVideoForTrack(track) {
+    const selectedVersion = savedTrackVideoVersions[track.music] || 1;
+    const fullVideoUrl = generateVideoUrlByVersion(track.video, selectedVersion);
+
+    if (fullVideoUrl === '#') {
+        bgVideo.removeAttribute('src');
+        bgVideo.style.opacity = 0;
+        bgVideo.load();
+        return;
+    }
+
+    bgVideo.loop = true; 
+    bgVideo.muted = true;
+    bgVideo.src = fullVideoUrl;
+    bgVideo.style.opacity = 1;
+    bgVideo.load();
+
+    bgVideo.onloadedmetadata = () => {
+        updateBgVisual();
+    };
+}
+
+audioCore.ontimeupdate = () => {
+    if (isNaN(audioCore.duration)) return;
+
+    const progressPercent = (audioCore.currentTime / audioCore.duration) * 100;
+    const bottomProgress = document.getElementById('bottom-progress');
+    if (bottomProgress) bottomProgress.style.width = progressPercent + '%';
+
+    const miniProgressBar = document.getElementById('mini-progress-bar');
+    if (miniProgressBar) miniProgressBar.style.width = progressPercent + '%';
+
+    const timeTextNode = document.getElementById('mini-player-time');
+    if (timeTextNode) {
+        timeTextNode.innerText = `${formatTime(audioCore.currentTime)} / ${formatTime(audioCore.duration)}`;
+    }
+
+    updateBgVisual();
+};
+
+audioCore.onplay = () => {
+    isPlaying = true;
+    updatePlayButtonsUI();
+    renderPlaylist();
+    updateBgVisual();
 };
 
 audioCore.onpause = () => {
-	isPlaying = false;
-	updatePlayButtonsUI();
-	renderPlaylist();
-	if (bgVideo.src) bgVideo.pause();
+    isPlaying = false;
+    updatePlayButtonsUI();
+    renderPlaylist();
+    updateBgVisual();
 };
 
 audioCore.onended = () => {
-	nextTrack();
+    nextTrack();
 };
-
-audioCore.ontimeupdate = () => {
-	if (isNaN(audioCore.duration)) return;
-	const progressPercent = (audioCore.currentTime / audioCore.duration) * 100;
-	const bottomProgress = document.getElementById('bottom-progress');
-	if (bottomProgress) bottomProgress.style.width = progressPercent + '%';
-	const miniProgressBar = document.getElementById('mini-progress-bar');
-	if (miniProgressBar) miniProgressBar.style.width = progressPercent + '%';
-	const timeTextNode = document.getElementById('mini-player-time');
-	if (timeTextNode) {
-		timeTextNode.innerText = `${formatTime(audioCore.currentTime)} / ${formatTime(audioCore.duration)}`;
-	}
-
-	if (bgVideo.src && bgVideo.duration && !isNaN(bgVideo.duration)) {
-		if (currentBgMode === 'auto') {
-			const targetTime = audioCore.currentTime % bgVideo.duration;
-			if (Math.abs(bgVideo.currentTime - audioCore.currentTime) > 0.5) {
-				bgVideo.currentTime = targetTime;
-			}
-			if (bgVideo.paused && isPlaying) bgVideo.play().catch(() => {});
-		} else if (currentBgMode === 'custom') {
-			const remainder = audioCore.duration % bgVideo.duration;
-			const startOffset = bgVideo.duration - remainder;
-			const expectedVideoTime = (audioCore.currentTime + startOffset) % bgVideo.duration;
-
-			if (Math.abs(bgVideo.currentTime - expectedVideoTime) > 0.6) {
-                bgVideo.currentTime = expectedVideoTime;
-            }
-            if (bgVideo.paused && isPlaying) bgVideo.play().catch(() => {});
-		}
-	}
-};
+/**/
 
 function handleProgressBarClick(event) {
 	if (!audioCore.duration || playingIdx === -1) return;
