@@ -62,7 +62,7 @@ body {
 	width: auto;
 	height: auto;
 	object-fit: cover;
-	z-index: 1 !important;
+	z-index: -1 !important;
 	pointer-events: none;
 }
 
@@ -83,12 +83,15 @@ body {
 }
 
 .player-top-header, #ui-header {
+	position: fixed;
 	top: 0; left: 0;
 	width: 100%;
 	padding: 25px 40px;
 	background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
-	z-index: 50 !important; 
-	pointer-events: none;
+	z-index: 999 !important; 
+	pointer-events: auto;
+	transform: translateZ(0);
+	will-change: transform;
 }
 
 .brand {
