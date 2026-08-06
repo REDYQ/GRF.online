@@ -18,6 +18,7 @@ let currentBgMode = 'custom';
 let savedTrackVideoVersions = {}; 
 
 let uiVisibilityConfig = {
+	header: true,
 	source: true,
 	name: true,
 	author: true,
@@ -339,12 +340,14 @@ function toggleEyeMenu(event) {
 }
 
 function updateVisibility() {
+	uiVisibilityConfig.header = document.getElementById('chk-header').checked;
 	uiVisibilityConfig.source = document.getElementById('chk-source').checked;
 	uiVisibilityConfig.name = document.getElementById('chk-name').checked;
 	uiVisibilityConfig.author = document.getElementById('chk-author').checked;
 	uiVisibilityConfig.versions = document.getElementById('chk-versions').checked;
 	uiVisibilityConfig.controls = document.getElementById('chk-controls').checked;
 
+	const headerNode = document.getElementById('ui-header') || document.querySelector('.player-top-header');
 	const sourceNode = document.getElementById('player-source');
 	const nameNode = document.getElementById('player-name');
 	const authorNode = document.getElementById('player-author');
