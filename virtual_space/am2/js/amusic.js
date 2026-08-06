@@ -354,6 +354,7 @@ function updateVisibility() {
 	const versionsNode = document.getElementById('ui-versions-panel');
 	const controlsNode = document.getElementById('ui-controls');
 
+	if (headerNode) headerNode.classList.toggle('ui-hidden', !uiVisibilityConfig.header);
 	if (sourceNode) sourceNode.classList.toggle('ui-hidden', !uiVisibilityConfig.source);
 	if (nameNode) nameNode.classList.toggle('ui-hidden', !uiVisibilityConfig.name);
 	if (authorNode) authorNode.classList.toggle('ui-hidden', !uiVisibilityConfig.author);
