@@ -184,7 +184,7 @@ function loadTrack(idx, shouldPlay) {
 
 	document.getElementById('player-name').innerText = track.name;
 	document.getElementById('player-author').innerText = track.autor;
-	const epLabel = track.episode ? ` (Episode: ${track.episode})` : '';
+	const epLabel = track.episode ? ` | Episode: ${track.episode}` : '';
 	const typeLabel = track.type ? ` | ${track.type}` : '';
 	document.getElementById('player-source').innerText = `${track.source || 'ANIME'}${epLabel}${typeLabel}`;
 	document.getElementById('mini-player-name').innerText = `${track.name} — ${track.autor}`;
