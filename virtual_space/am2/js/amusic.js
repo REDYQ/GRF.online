@@ -6,6 +6,10 @@ let currentTracks = [];
 
 let playingIdx = -1;
 
+let customStartTime = 0;
+let isFirstVideoCycleDone = false;
+let isCustomModeAllowed = false;
+
 let isPlaying = false;
 let isShuffle = false;
 let loopMode = 0;
@@ -556,40 +560,50 @@ function setBgMode(mode) {
     }
 }
 
-function toggleBgMode() {
-    const nextMode = (currentBgMode === 'auto') ? 'custom' : 'auto';
-    setBgMode(nextMode);
-    showToast(`Режим видео-фона: ${nextMode.toUpperCase()}`);
-}
-
-function updateBgVisual() {
-    if (!bgVideo.src || isNaN(audioCore.duration) || isNaN(bgVideo.duration) || bgVideo.duration === 0) {
-        return;
-    }
-
-    if (currentBgMode === 'auto') {
-        const targetTime = audioCore.currentTime % bgVideo.duration;
-        if (Math.abs(bgVideo.currentTime - targetTime) > 0.5) {
-            bgVideo.currentTime = targetTime;
-        }
-    } else if (currentBgMode === 'custom') {
-        const remainder = audioCore.duration % bgVideo.duration;
-        const startOffset = bgVideo.duration - remainder;
-        const expectedVideoTime = (audioCore.currentTime + startOffset) % bgVideo.duration;
-
-        if (Math.abs(bgVideo.currentTime - expectedVideoTime) > 0.6) {
-            bgVideo.currentTime = expectedVideoTime;
-        }
-    }
-
-    if (isPlaying && !audioCore.paused) {
-        if (bgVideo.paused) bgVideo.play().catch(() => {});
-    } else {
-        if (!bgVideo.paused) bgVideo.pause();
-    }
+function calculateCustomDelay(rawVideoPath) {
+	const bgModeBtn = document.getElementById('bg-mode-btn');
+	
+	if (!rawVideoPath || rawVideoPath === '#' || !bgVideo.duration) {
+		customStartTime = 0;
+		isCustomModeAllowed = false;
+		currentBgMode = 'auto';
+		if (bgModeBtn) bgModeBtn.innerText = `Режим: Auto`;
+		return;
+	}
+	
+	const hasTimestamp = rawVideoPath.includes('?');
+	if (!hasTimestamp) {
+		customStartTime = 0;
+		isCustomModeAllowed = false;
+		
+		if (currentBgMode === 'custom') {
+			currentBgMode = 'auto';
+			if (bgModeBtn) bgModeBtn.innerText = `Режим: Auto`;
+			showToast("Режим Custom недоступен для дангого трека.");
+		}
+		return;
+	}
+	
+	const parts = rawVideoPath.split('?');
+	const timeMatch = parts[1].match(/^(\d+)-(\d+(?:\.\d+)?)$/);
+	if (timeMatch) {
+		const minutes = parseInt(timeMatch[1], 10);
+		const seconds = parseFloat(timeMatch[2]);
+		customStartTime = (minutes * 60) + seconds;
+		isCustomModeAllowed = true;
+	} else {
+		customStartTime = 0;
+		isCustomModeAllowed = false;
+		
+		if (currentBgMode === 'custom') {
+			currentBgMode = 'auto';
+			if (bgModeBtn) bgModeBtn.innerText = `Режим: Auto`;
+		}
+	}
 }
 
 function startBgVideoForTrack(track) {
+	isFirstVideoCycleDone = false;
     const selectedVersion = savedTrackVideoVersions[track.music] || 1;
     const fullVideoUrl = generateVideoUrlByVersion(track.video, selectedVersion);
 
@@ -606,6 +620,7 @@ function startBgVideoForTrack(track) {
     bgVideo.load();
 
     bgVideo.onloadedmetadata = () => {
+    	calculateCustomDelay(track.video);
         const waitForAudio = () => {
             if (!audioCore.duration || isNaN(audioCore.duration) || audioCore.duration === 0) {
                 requestAnimationFrame(waitForAudio);
@@ -615,6 +630,52 @@ function startBgVideoForTrack(track) {
         };
         waitForAudio();
     };
+}
+
+function updateBgVisual() {
+    if (!bgVideo.src || isNaN(audioCore.duration) || isNaN(bgVideo.duration) || bgVideo.duration === 0) {
+        return;
+    }
+
+	if (isPlaying && !audioCore.paused) {
+		if (bgVideo.paused) bgVideo.play().catch(() => {});
+	} else {
+		if (!bgVideo.paused) bgVideo.pause();
+		return;
+	}
+	
+	let videoPos = 0;
+	
+    if (currentBgMode === 'auto') {
+        videoPos = audioCore.currentTime % bgVideo.duration;
+    } else if (currentBgMode === 'custom' && isCustomModeAllowed) {
+		if (isFirstVideoCycleDone) {
+			videoPos = audioCore.currentTime % bgVideo.duration;
+		} else if (customStartTime > 0) {
+			const firstCycleEndTime = customStartTime + bgVideo.duration;
+			
+			if (audioCore.currentTime > 1 && audioCore.currentTime >= firstCycleEndTime) {
+				isFirstVideoCycleDone = true;
+				videoPos = audioCore.currentTime % bgVideo.duration;
+			} else if (audioCore.currentTime < customStartTime) {
+				videoPos = (bgVideo.duration - customStartTime) + audioCore.currentTime;
+			} else {
+				const exactPos = audioCore.currentTime - customStartTime;
+				videoPos = exactPos < 0.5 ? 0 : exactPos;
+			}
+		} else {
+			videoPos = audioCore.currentTime % bgVideo.duration;
+		}
+
+		const firstCycleEndTime = customStartTime;
+		if (audioCore.currentTime < firstCycleEndTime) {
+			isFirstVideoCycleDone = false;
+		}
+	}
+
+	if (Math.abs(bgVideo.currentTime - videoPos) > 0.6) {
+		bgVideo.currentTime = videoPos;
+	}
 }
 
 audioCore.ontimeupdate = () => {
@@ -686,8 +747,18 @@ function syncMediaSession(track) {
 }
 
 function toggleBgMode() {
-	currentBgMode = (currentBgMode === 'auto') ? 'custom' : 'auto';
-	document.getElementById('bg-mode-btn').innerText = `Режим: ${currentBgMode === 'auto' ? 'Auto' : 'Custom'}`;
+	const nextMode = (currentBgMode === 'auto') ? 'custom' : 'auto';
+	
+	if (nextMode === 'custom' && !isCustomModeAllowed) {
+		showToast("Для этого трека режим Custom недоступен");
+		return; 
+	}
+	
+	currentBgMode = nextMode;
+	const bgModeBtn = document.getElementById('bg-mode-btn');
+	if (bgModeBtn) {
+		bgModeBtn.innerText = `Режим: ${currentBgMode === 'auto' ? 'Auto' : 'Custom'}`;
+	}
 	showToast(`Режим видео-фона: ${currentBgMode.toUpperCase()}`);
 	
 	if (playingIdx !== -1) {
